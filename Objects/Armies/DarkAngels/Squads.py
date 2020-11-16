@@ -31,10 +31,10 @@ class TacticalSquad(Squad):
         self.ABILITIES = [Abilities.AndTheyShallKnowNoFear,
                           Abilities.CombatSquad]
         self.Units.append(Units.TacticalMarineSergeant())
-        #self.Units.append(Units.TacticalMarine())
-        #self.Units.append(Units.TacticalMarine())
-        #self.Units.append(Units.TacticalMarine())
-        #self.Units.append(Units.TacticalMarine())
+        self.Units.append(Units.TacticalMarine())
+        # self.Units.append(Units.TacticalMarine())
+        # self.Units.append(Units.TacticalMarine())
+        # self.Units.append(Units.TacticalMarine())
         self.SergeantWithMeltaBombs = False
         self.SoldierWithSpecialWeapon = False
         self.SoldierWithHeavyWeapon = False

@@ -23,7 +23,7 @@ def vanilla_loop(RedAgents, GreenAgents, Env, NumEpisodes=2000, Movements=100, P
                     s_1, r, Done = Env.step(action, i, RedAgents, RedTurn)
                     if movements > Movements:
                         Done = True
-                        r = -10
+                        r = -Env.WinningReward
                     red_score += r
                     RedAgents.Units[i].store_transition(s_0, action, r, s_1, Done)
                     RedAgents.Units[i].learn()
@@ -46,7 +46,7 @@ def vanilla_loop(RedAgents, GreenAgents, Env, NumEpisodes=2000, Movements=100, P
                     s_1, r, Done = Env.step(action, i, GreenAgents, RedTurn)
                     if movements > Movements:
                         Done = True
-                        r = -10
+                        r = -Env.WinningReward
                     green_score += r
                     GreenAgents.Units[i].store_transition(s_0, action, r, s_1, Done)
                     GreenAgents.Units[i].learn()
@@ -73,7 +73,7 @@ def vanilla_loop(RedAgents, GreenAgents, Env, NumEpisodes=2000, Movements=100, P
     plt.savefig('./Images/FirstApproach/vanilla_green.png')
 
 
-def pineapple_loop(RedAgents, GreenAgents, Env, NumEpisodes=2000, Movements=300, PlotEnable=False):
+def pineapple_loop(RedAgents, GreenAgents, Env, NumEpisodes=2000, Movements=300, PlotEnable=False, Verbose=1):
     num_episodes = NumEpisodes
     Episode = 0
     red_scores, red_eps_history, red_avg_score = [], [], []
@@ -91,9 +91,10 @@ def pineapple_loop(RedAgents, GreenAgents, Env, NumEpisodes=2000, Movements=300,
             for i, Unit in enumerate(RedAgents.Units):
                 action = Unit.choose(s_0)
                 s_1, r, Done = Env.step(action, i, RedAgents, RedTurn)
-                if movements > Movements:
+                if movements > Movements or Env.greenArmyWins:
                     Done = True
-                    r = -10
+                    Env.redArmyWins = False
+                    r = -Env.WinningReward
                 red_score += r
                 RedAgents.Units[i].store_transition(s_0, action, r, s_1, Done)
                 s_0 = s_1
@@ -101,48 +102,59 @@ def pineapple_loop(RedAgents, GreenAgents, Env, NumEpisodes=2000, Movements=300,
             for i, Unit in enumerate(GreenAgents.Units):
                 action = Unit.choose(s_0)
                 s_1, r, Done = Env.step(action, i, GreenAgents, RedTurn)
-                if movements > Movements:
+                if movements > Movements or Env.redArmyWins:
                     Done = True
-                    r = -10
+                    Env.greenArmyWins = False
+                    r = -Env.WinningReward
                 green_score += r
+
+                if Env.greenArmyWins:
+                    red_score = -1
+
                 GreenAgents.Units[i].store_transition(s_0, action, r, s_1, Done)
                 s_0 = s_1
             RedTurn = True
         if Env.redArmyWins:
             Env.greenArmyWins = False
         if not Env.greenArmyWins:
-            rewards = numpy.full(movements, -10, dtype=numpy.float32)
+            rewards = numpy.full(movements, -Env.WinningReward, dtype=numpy.float32)
         else:
-            rewards = numpy.full(movements, 10, dtype=numpy.float32)
+            rewards = numpy.full(movements, Env.WinningReward, dtype=numpy.float32)
         for i, Unit in enumerate(GreenAgents.Units):
             green_scores.append(green_score)
             green_eps_history.append(Unit.Epsilon)
-            green_avg_score.append(numpy.mean(green_scores[-100:]))
+            green_avg_score.append(numpy.mean(green_scores[-1000:]))
             GreenAgents.Units[i].RewardMemory[-len(rewards):] = rewards
             GreenAgents.Units[i].learn()
-            GreenAgents.Units[i].epsilon_decay()
+            if Env.greenArmyWins:
+                GreenAgents.Units[i].epsilon_decrease()
+            elif Env.redArmyWins:
+                GreenAgents.Units[i].epsilon_increase()
         if not Env.redArmyWins:
-            rewards = numpy.full(movements, -10, dtype=numpy.float32)
+            rewards = numpy.full(movements, -Env.WinningReward, dtype=numpy.float32)
         else:
-            rewards = numpy.full(movements, 19, dtype=numpy.float32)
+            rewards = numpy.full(movements, Env.WinningReward, dtype=numpy.float32)
         for i, Unit in enumerate(RedAgents.Units):
             red_scores.append(red_score)
             red_eps_history.append(Unit.Epsilon)
-            red_avg_score.append(numpy.mean(red_scores[-100:]))
+            red_avg_score.append(numpy.mean(red_scores[-1000:]))
             RedAgents.Units[i].RewardMemory[-len(rewards):] = rewards
             RedAgents.Units[i].learn()
-            RedAgents.Units[i].epsilon_decay()
-        print('Episode', Episode,
-              'RED score %.2f' % red_score,
-              'GREEN score %.2f' % green_score,
-              'epsilon %.2f' % GreenAgents.Units[0].Epsilon,
-              'RedAgents win with average score %.2f' % numpy.mean(red_scores[-100:]) if Env.redArmyWins else ''
-              'GreenAgents win with average score %.2f' % numpy.mean(green_scores[-100:]) if Env.greenArmyWins else '')
+            if Env.redArmyWins:
+                RedAgents.Units[i].epsilon_decrease()
+            elif Env.greenArmyWins:
+                RedAgents.Units[i].epsilon_increase()
+        if (Verbose == 1 and (Env.redArmyWins or Env.greenArmyWins)) or (Verbose == 2):
+            print('Episode', Episode,
+                  'RED score %.2f' % float(red_avg_score[Episode]/len(RedAgents.Units)),
+                  'GREEN score %.2f' % float(green_avg_score[Episode]/len(GreenAgents.Units)),
+                  'red epsilon %.5f' % RedAgents.Units[0].Epsilon,
+                  'green epsilon %.5f' % GreenAgents.Units[0].Epsilon,
+                  'RedAgents   win in {} movements'.format(movements) if Env.redArmyWins else ''
+                  'GreenAgents win in {} movements'.format(movements) if Env.greenArmyWins else '')
         Episode += 1
     x = [i + 1 for i in range(len(red_avg_score))]
-    plt.plot(x, red_avg_score)
-    plt.savefig('./Images/FirstApproach/Pineapple_red.png')
+    plt.plot(x, red_avg_score, 'r')
+    plt.plot(x, green_avg_score, 'g')
+    plt.savefig('./Images/FirstApproach/Pineapple.png')
     plt.close()
-    x = [i + 1 for i in range(len(green_avg_score))]
-    plt.plot(x, green_avg_score)
-    plt.savefig('./Images/FirstApproach/Pineapple_green.png')

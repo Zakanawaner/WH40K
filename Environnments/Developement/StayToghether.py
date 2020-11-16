@@ -8,10 +8,6 @@ class Environment:
         # Create armies
         self.RedArmyUnits = []
         self.RedArmyBodies = []
-        self.GreenArmyUnits = []
-        self.GreenArmyBodies = []
-        self.redArmyWins = False
-        self.greenArmyWins = False
         # Create board
         self.minX = 0.0
         self.maxX = 120.0
@@ -23,78 +19,41 @@ class Environment:
         # Rewards
         self.WinningReward = 1
 
-    def start(self, RedArmy, GreenArmy):
+    def start(self, RedArmy):
         self.i = 0
-        self.redArmyWins = False
-        self.greenArmyWins = False
-        self.init_positions(RedArmy, GreenArmy)
+        self.init_positions(RedArmy)
         return self.get_state()
 
-    def init_positions(self, RedArmy, GreenArmy):
+    def init_positions(self, RedArmy):
         self.RedArmyBodies = []
-        self.GreenArmyBodies = []
         for index, unit in enumerate(RedArmy.Units):
             RedArmy.Units[index].set_position(x=numpy.random.uniform(0, 30), y=numpy.random.uniform(0, 60))
             body = Point(RedArmy.Units[index].Position.x,
                          RedArmy.Units[index].Position.y).buffer(RedArmy.Units[index].BodyInfo['radius'])
             self.RedArmyBodies.append(body)
-        for index, unit in enumerate(GreenArmy.Units):
-            GreenArmy.Units[index].set_position(x=numpy.random.uniform(90, 120), y=numpy.random.uniform(0, 60))
-            body = Point(GreenArmy.Units[index].Position.x,
-                         GreenArmy.Units[index].Position.y).buffer(GreenArmy.Units[index].BodyInfo['radius'])
-            self.GreenArmyBodies.append(body)
-        self.targetX = numpy.random.uniform(30, 90)
-        self.targetY = numpy.random.uniform(0, 60)
-        self.targetRadius = 10
-        self.TargetShape = Point(self.targetX, self.targetY).buffer(self.targetRadius)
 
     def step(self, Action, soldier, Army, redTurn):
         direction = 15 * Action
         Army.Units[soldier].move(6, direction=direction)
         reward = self.check_boundaries(soldier, Army, redTurn)
-        if reward == 0:
-            reward, done = self.calculate_r(Army, redTurn)
-            if redTurn:
-                self.redArmyWins = done
-            else:
-                self.greenArmyWins = done
-        else:
-            done = False
-        return self.get_state(), reward, done
+        return self.get_state(), reward
 
     def update_board(self, soldier, Army, redTurn):
         body = Point(Army.Units[soldier].Position.x,
                      Army.Units[soldier].Position.y).buffer(Army.Units[soldier].BodyInfo['radius'])
         if redTurn:
             self.RedArmyBodies[soldier] = body
-        else:
-            self.GreenArmyBodies[soldier] = body
 
     def get_state(self):
         state = []
         for body in self.RedArmyBodies:
             state.append(body.centroid.x)
             state.append(body.centroid.y)
-        for body in self.GreenArmyBodies:
-            state.append(body.centroid.x)
-            state.append(body.centroid.y)
-        state.append(self.targetX)
-        state.append(self.targetY)
         return state
 
     def calculate_r(self, Army, redTurn):
-        count = 0
-        for index, unit in enumerate(Army.Units):
-            if redTurn:
-                count += 1 if not self.RedArmyBodies[index].intersection(self.TargetShape).is_empty else 0
-            else:
-                count += 1 if not self.GreenArmyBodies[index].intersection(self.TargetShape).is_empty else 0
-        if count == len(Army.Units):
-            done = True
-            reward = self.WinningReward
-        else:
-            done = False
-            reward = 0
+        done = False
+        reward = 0
         return reward, done
 
     def check_boundaries(self, soldier, Army, redTurn):
@@ -131,7 +90,6 @@ class Environment:
         plt.close(fig)
 
 
-class GetToTheTargetIndividually(Environment):
+class StayTogether(Environment):
     def __init__(self):
         super().__init__()
-
