@@ -1,4 +1,4 @@
-from Objects.Armies.AdeptaSororitas import Units, Weapons, Abilities
+from . import Units, Weapons, Abilities
 
 
 class Squad:
@@ -246,7 +246,7 @@ class RepentiaSuperior(Squad):
 class SisterRepentiaSquad(Squad):
     def __init__(self):
         super().__init__(Power=2, MaxUnits=5, AddedPower=3)
-        self.Keywords = ["INFANTRY", " SISTERS REPENTIA"]
+        self.Keywords = ["INFANTRY", "SISTERS REPENTIA"]
         self.ABILITIES = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
@@ -262,131 +262,191 @@ class SisterRepentiaSquad(Squad):
 
 class CelestianSquad(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["INFANTRY", " CELESTIAN SQUAD"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=4, MaxUnits=10, AddedPower=2)
+        self.FactionKeywords.append('<ORDER>')
+        self.Keywords = ["INFANTRY", "CELESTIAN SQUAD"]
+        self.ABILITIES = [Abilities.ActsOfFaith,
+                          Abilities.SacredRites,
+                          Abilities.ShieldOfFaith,
+                          Abilities.Bodyguard,
+                          Abilities.SwornProtectors,
+                          Abilities.SimulacrumImperialis,
+                          Abilities.IncensorCherub]
+        self.Units.append(Units.Celestian())
+        self.Units.append(Units.Celestian())
+        self.Units.append(Units.Celestian())
+        self.Units.append(Units.Celestian())
+        self.Units.append(Units.Celestian())
+        self.HasSuperior = False
+        self.SoldierHasSpecialWeapon = False
+        self.SoldierHasHeavyWeapon = False
+        self.HasSimulacrumImperialis = False
+        self.HasIncensorCherub = False
         self.calculate_points()
 
-        # 1 Celestian can be equipped with 1 weapon from the Special Weapons list instead of 1 boltgun.
-        # 1 Celestian can be equipped with one of the following instead of 1 boltgun: 1 weapon from the Heavy Weaponslist; 1 weapon from the Special Weapons list.
-        # 1 Celestian equipped with 1 boltgun can have a Simulacrum Imperialis.
-        # The Celestian Superior can additionally be equipped with 1 weapon from the Melee Weapons list, or can beequipped with 1 weapon from the Melee Weapons list instead of 1 boltgun.
-        # The Celestian Superior can be equipped with 1 weapon from the Ranged Weapons list instead of 1 boltgun.
-        # The Celestian Superior can be equipped with 1 weapon from the Pistols list instead of 1 bolt pistol.
-        # The unit can have an Incensor Cherub.
+    def add_superior(self):
+        if not self.HasSuperior:
+            self.HasSuperior = True
+            self.add_soldier(Units.CelestianSuperior())
+
+    def take_incensor_cherub(self):
+        self.HasIncensorCherub = True
+        self.Points += 5
+
+    def sergeant_take_melee_weapon(self, weapon=None):
+        self.Units[0].replace_gun_5(weapon=weapon)
+        self.calculate_points()
+
+    def sergeant_replace_boltgun(self, weapon=None):
+        self.Units[0].replace_gun_2(weapon=weapon)
+        self.Units[0].HasBoltGun = False
+        self.calculate_points()
+
+    def sergeant_replace_bolt_pistol(self, weapon=None):
+        self.Units[0].replace_gun_1(weapon=weapon)
+        self.calculate_points()
+
+    def replace_boltgun_by_special(self, soldier=1, weapon=None):
+        if not self.SoldierHasSpecialWeapon:
+            self.Units[soldier].replace_gun_2(weapon=weapon)
+            self.Units[soldier].HasBoltGun = False
+            self.SoldierHasSpecialWeapon = True
+            self.calculate_points()
+
+    def replace_boltgun_by_heavy(self, soldier=1, weapon=None):
+        if not self.SoldierHasHeavyWeapon:
+            self.Units[soldier].replace_gun_2(weapon=weapon)
+            self.Units[soldier].HasBoltGun = False
+            self.SoldierHasHeavyWeapon = True
+            self.calculate_points()
+
+    def take_simulacrum_imperialis(self, soldier=1):
+        if self.Units[soldier].HasBoltGun:
+            self.Units[soldier].HasSimulacrumImperialis = True
+            self.HasSimulacrumImperialis = True
+            self.Units[soldier].POINTS += 5
+            self.calculate_points()
 
 
 class ZephyrimSquad(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["INFANTRY", " JUMP PACK", " FLY", " ZEPHYRIM SQUAD"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=5, MaxUnits=10, AddedPower=4)
+        self.FactionKeywords.append('<ORDER>')
+        self.Keywords = ["INFANTRY", "JUMP PACK", "FLY", "ZEPHYRIM SQUAD"]
+        self.ABILITIES = [Abilities.ActsOfFaith,
+                          Abilities.SacredRites,
+                          Abilities.ShieldOfFaith,
+                          Abilities.RapturousBlows,
+                          Abilities.ZephyrimPennant,
+                          Abilities.SkyStrike,
+                          Abilities.AngelicVisage]
+        self.Units.append(Units.ZephyrimSuperior())
+        self.Units.append(Units.Zephyrim())
+        self.Units.append(Units.Zephyrim())
+        self.Units.append(Units.Zephyrim())
+        self.Units.append(Units.Zephyrim())
+        self.CanHaveZephyrimPennant = True
+        self.HasZephyrimPennant = False
         self.calculate_points()
 
-        # The Zephyrim Superior can be equipped with 1 plasma pistol instead of 1 bolt pistol.
-        # If the Zephyrim Superior is equipped with 1 bolt pistol, she can have a Zephyrim pennant.
+    def sergeant_replace_bolt_pistol(self):
+        self.Units[0].replace_gun_1(Weapons.PlasmaPistol())
+        self.CanHaveZephyrimPennant = False
+        self.calculate_points()
+
+    def take_zephyrim_pennant(self):
+        if self.CanHaveZephyrimPennant:
+            self.CanHaveZephyrimPennant = False
+            self.HasZephyrimPennant = True
+            self.Units[0].POINTS += 5
+            self.calculate_points()
 
 
-class DialogusSquad(Squad):
+class Dialogus(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["CHARACTER", " INFANTRY", " DIALOGUS"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=2, MaxUnits=1, AddedPower=0)
+        self.Keywords = ["CHARACTER", "INFANTRY", "DIALOGUS"]
+        self.ABILITIES = [Abilities.ActsOfFaith,
+                          Abilities.SacredRites,
+                          Abilities.ShieldOfFaith,
+                          Abilities.LaudHailer,
+                          Abilities.SpiritualFortitude,
+                          Abilities.StirringRhetoric]
+        self.Units.append(Units.Dialogus())
         self.calculate_points()
 
 
-
-class HospitallerSquad(Squad):
+class Hospitaller(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["CHARACTER", " INFANTRY", " HOSPITALLER"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=2, MaxUnits=1, AddedPower=0)
+        self.Keywords = ["CHARACTER", "INFANTRY", "HOSPITALLER"]
+        self.ABILITIES = [Abilities.ActsOfFaith,
+                          Abilities.SacredRites,
+                          Abilities.ShieldOfFaith,
+                          Abilities.MedicusMinistorum]
+        self.Units.append(Units.Hospitaller())
         self.calculate_points()
 
 
-
-class ImagifierSquad(Squad):
+class Imagifier(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["CHARACTER", " INFANTRY", " IMAGIFIER"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=2, MaxUnits=1, AddedPower=0)
+        self.FactionKeywords.append('<ORDER>')
+        self.Keywords = ["CHARACTER", "INFANTRY", "IMAGIFIER"]
+        self.ABILITIES = [Abilities.ActsOfFaith,
+                          Abilities.SacredRites,
+                          Abilities.ShieldOfFaith,
+                          Abilities.LitanyOfDeeds]
+        self.Units.append(Units.Imagifier())
         self.calculate_points()
-
 
 
 class CrusaderSquad(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["INFANTRY", " ECCLESIARCHY BATTLE CONCLAVE", " CRUSADERS"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=1, MaxUnits=6, AddedPower=2)
+        self.FactionKeywords.pop(2)
+        self.FactionKeywords.append('ASTRA MILITARUM')
+        self.Keywords = ["INFANTRY", "ECCLESIARCHY BATTLE CONCLAVE", "CRUSADERS"]
+        self.ABILITIES = [Abilities.Zealot,
+                          Abilities.EcclesiarchyBattleConclave,
+                          Abilities.StormShield,
+                          Abilities.SpiritualFortitude]
+        self.Units.append(Units.Crusader())
+        self.Units.append(Units.Crusader())
         self.calculate_points()
 
 
-
-class Death Cult AssassinSquad(Squad):
+class DeathCultAssassinSquad(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["INFANTRY", " ECCLESIARCHY BATTLE CONCLAVE", " DEATH CULT ASSASSINS"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=1, MaxUnits=6, AddedPower=2)
+        self.FactionKeywords.pop(2)
+        self.Keywords = ["INFANTRY", "ECCLESIARCHY BATTLE CONCLAVE", "DEATH CULT ASSASSINS"]
+        self.ABILITIES = [Abilities.Zealot,
+                          Abilities.UncannyReflexes,
+                          Abilities.EcclesiarchyBattleConclave]
+        self.Units.append(Units.DeathCultAssassin())
+        self.Units.append(Units.DeathCultAssassin())
         self.calculate_points()
 
 
-
-class Arco-flagellantSquad(Squad):
+class ArcoFlagellantSquad(Squad):
     def __init__(self):
-        super().__init__(Power=, MaxUnits=, AddedPower=)
-        self.Keywords = ["INFANTRY", " ECCLESIARCHY BATTLE CONCLAVE", " ARCO-FLAGELLANTS"]
-        self.ABILITIES = []
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        self.Units.append(Units. )
-        # TODO Equipment singularities
+        super().__init__(Power=2, MaxUnits=10, AddedPower=4)
+        self.FactionKeywords.pop(2)
+        self.Keywords = ["INFANTRY", "ECCLESIARCHY BATTLE CONCLAVE", "ARCO-FLAGELLANTS"]
+        self.ABILITIES = [Abilities.Zealot,
+                          Abilities.BerserkKillingMachines,
+                          Abilities.EcclesiarchyBattleConclave]
+        self.Units.append(Units.ArcoFlagellant())
+        self.Units.append(Units.ArcoFlagellant())
+        self.Units.append(Units.ArcoFlagellant())
+        self.HasEndurant = False
         self.calculate_points()
 
+    def take_endurant(self):
+        if not self.HasEndurant:
+            self.Units[0] = Units.Endurant()
+            self.HasEndurant = True
 
 
 class DominionSquad(Squad):

@@ -1,0 +1,52 @@
+-WH40K
+    -Environments: Environments of the game.
+        -Developement
+            -GetToTheTarget.py: Env for learning to get to certain target set on the board.
+            -StayTogethet.py: Env for learning the unit coherency.
+    -Images: Folder with graphs and images of the training and other.
+        -FirstApproach: Folder for FirstApproach script.
+            -GameHistoy: Folder with the evolution of the game.
+            -Graphs: Folder with the result of the trainings.
+    -Objects: Objects of the game.
+        -Armies: Package with the armies
+            -Imperium
+                -AdeptusAstartes
+                    -DarkAngels
+                    -BloodAngels
+                    -SpaceMarines
+                    -BlackTemplars
+                    -DeathWatch
+                    -GreyKnights
+                    -ImperialFists
+                    -IronHands
+                    -RavenGuard
+                    -Salamanders
+                    -SpaceWolves
+                    -Ultramarines
+                    -WhiteScars
+                -AdeptaSororitas
+                -AdeptusCustodes
+                -AdeptusMechanicus
+                -AstraMilitarum
+                -ImperialKnights
+                -Inquisition
+                -OfficioAssassnorum
+                -SistersOfSilence
+            -Xenos
+                -Necrons
+                -Orks
+                -Aeldari
+                -Drukhari
+                -GeneStealerCults
+                -Harlequins
+                -Tau
+                -Tyranids
+                -Ynnari
+            -Chaos
+                -ChaosDaemons
+                -ChaosKnights
+                -HereticAstartes
+                    -DeathGuard
+                    -ThousandSons
+                    -ChaosSpaceMarines
+                    -RenegadeKnights

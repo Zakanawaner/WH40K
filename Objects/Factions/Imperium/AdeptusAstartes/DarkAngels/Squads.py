@@ -1,4 +1,4 @@
-from Objects.Armies.DarkAngels import Units, Weapons, Abilities
+from . import Units, Weapons, Abilities
 
 
 class Squad:
@@ -32,9 +32,9 @@ class TacticalSquad(Squad):
                           Abilities.CombatSquad]
         self.Units.append(Units.TacticalMarineSergeant())
         self.Units.append(Units.TacticalMarine())
-        # self.Units.append(Units.TacticalMarine())
-        # self.Units.append(Units.TacticalMarine())
-        # self.Units.append(Units.TacticalMarine())
+        self.Units.append(Units.TacticalMarine())
+        self.Units.append(Units.TacticalMarine())
+        self.Units.append(Units.TacticalMarine())
         self.SergeantWithMeltaBombs = False
         self.SoldierWithSpecialWeapon = False
         self.SoldierWithHeavyWeapon = False

@@ -1,6 +1,6 @@
-from ...Common.Armies import Infantry, Vehicle, Sergeant
+from Objects.Common.Armies import Infantry, Vehicle, Sergeant
 from Objects.Races.Humans import Human
-from Objects.Armies.AdeptaSororitas import Mesh, Weapons
+from . import Mesh, Weapons
 
 
 class Canoness(Infantry, Human):
@@ -239,6 +239,11 @@ class Celestian(Infantry, Human):
         self.POINTS += self.Gun4.POINTS
 
 
+class CelestianSuperior(Celestian, Sergeant):
+    def __init__(self):
+        super().__init__()
+
+
 class Zephyrim(Infantry, Human):
     def __init__(self):
         super().__init__()
@@ -326,6 +331,7 @@ class Crusader(Infantry, Human):
         self.T = 3
         self.A = 2
         self.Sv = 4
+        self.InvSv = 3
         self.Gun1 = Weapons.PowerSword()
         self.POINTS += self.Gun1.POINTS
 
@@ -358,6 +364,12 @@ class ArcoFlagellant(Infantry, Human):
         self.Sv = 7
         self.Gun1 = Weapons.ArcoFlails()
         self.POINTS += self.Gun1.POINTS
+
+
+class Endurant(ArcoFlagellant):
+    def __init__(self):
+        super().__init__()
+        self.A = 3
 
 
 class Dominion(Infantry, Human):

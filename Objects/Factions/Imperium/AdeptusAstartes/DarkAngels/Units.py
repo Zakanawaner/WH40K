@@ -1,6 +1,6 @@
-from ...Common.Armies import Infantry, Vehicle, Sergeant
+from Objects.Common.Armies import Infantry, Vehicle, Sergeant
 from Objects.Races.Humans import Human
-from Objects.Armies.DarkAngels import Mesh, Weapons as DarkAngelWeapons
+from . import Mesh, Weapons as DarkAngelWeapons
 
 
 class TacticalMarine(Infantry, Human):

@@ -207,3 +207,65 @@ attempt can be made to intercept each attack.'''
 
 SwornProtectors = '''You can re-roll hit rolls for attacks made by models in this unit whilst it is within 6" of any
 friendly <ORDER> CANONESSES.'''
+
+RapturousBlows = '''When resolving an attack made with
+a melee weapon by a model in this unit, you can re-roll
+the wound roll.'''
+
+ZephyrimPennant = '''You can re-roll charge rolls made
+for <ORDER> units whilst they are within 6" of any
+friendly units with a Zephyrim pennant when the roll
+is made.'''
+
+SkyStrike = '''During deployment, you can set up this unit
+in the sky instead of setting it up on the battlefield. If
+you do, at the end of one of your Movement phases you
+can set up this unit anywhere on the battlefield that is
+more than 9" away from any enemy models.'''
+
+AngelicVisage = '''The invulnerable save models in this
+unit receive from the Shield of Faith ability is improved
+by 1, to a maximum of 4+.'''
+
+LaudHailer = '''Add 1 to the Leadership characteristic of ADEPTA SORORITAS units whilst they are within 6" of
+any friendly models with this ability.'''
+
+SpiritualFortitude = '''When this model would lose a wound as a result of a mortal wound in the Psychic phase, roll
+one D6; on a 5+ that wound is not lost.'''
+
+StirringRhetoric = '''When you perform an Act of Faith for a model or unit whilst it is within 6" of any friendly
+models with this ability, you can increase or decrease the value of one Miracle dice used by 1 before you use it, to
+a maximum of 6 and a minimum of 1. This is not cumulative with any other abilities that can increase or decrease
+the value of a Miracle dice (e.g. the Triumph of Saint Katherine’s Relics of the Matriarchs ability).'''
+
+MedicusMinistorum = '''At the end of your Movement phase, this model can provide medical attention to one
+friendly ADEPTUS MINISTORUM INFANTRY unit within 3" of it. If that unit contains a model that has lost any
+wounds, that model regains up to D3 lost wounds. Otherwise, if any models from that unit have been destroyed,
+you can return one destroyed model from that unit to the battlefield with 1 wound remaining, placing it within 3"
+of this model and in unit coherency (if the model cannot be placed in this way, it is not returned to the battlefield).
+Each unit can only be provided medical attention once per turn.'''
+
+LitanyOfDeeds = '''During deployment, after you have set up this model on the battlefield, select one of the
+following tales. This model has that ability until the end of the battle.
+• Tale of the Faithful: You can re-roll Deny the Witch tests taken for models in <ORDER> units whilst their unit is
+within 6" of any friendly models with this ability.
+• Tale of the Stoic: Weapons with an Armour Penetration characteristic of -1 are treated as having an Armour
+Penetration characteristic of 0 when resolving attacks against <ORDER> units whilst they are within 6" of any
+friendly models with this ability.
+• Tale of the Warrior: Add 1 to the Strength characteristic of models in <ORDER> units whilst their unit is within
+6" of any friendly models with this ability.'''
+
+EcclesiarchyBattleConclave = '''If your army
+is Battle-forged, this unit does not take up
+a slot in a Detachment that includes any
+MINISTORUM PRIESTS.'''
+
+StormShield = '''Models in this unit have a 3+
+invulnerable save.'''
+
+UncannyReflexes = '''Models in this unit have a 5+
+invulnerable save.'''
+
+BerserkKillingMachines = '''When a model in this unit
+would lose a wound, roll one D6; on a 5+ that wound
+is not lost.'''

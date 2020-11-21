@@ -1,4 +1,4 @@
-from ...Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun, DiceStrengthGun, DiceArmoryPenetrationGun
+from Objects.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun, DiceStrengthGun, DiceArmoryPenetrationGun
 
 
 class BigShoota(Weapon):

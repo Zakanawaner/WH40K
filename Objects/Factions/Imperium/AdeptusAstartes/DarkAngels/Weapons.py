@@ -1,4 +1,4 @@
-from ...Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun
+from Objects.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun
 
 
 class Gauntlet(Melee):
