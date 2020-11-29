@@ -6,6 +6,7 @@ import sys
 import trimesh
 import requests
 import io
+import re
 import urllib.request
 
 
@@ -16,32 +17,32 @@ def main():
 
         if not os.path.exists('./Source/Dataoutput/{}'.format(army)):
             os.makedirs('./Source/Dataoutput/{}'.format(army))
-        if not os.path.exists('./Source/Objects/{}'.format(army)):
-            os.makedirs('./Source/Objects/{}'.format(army))
-        if not os.path.exists('./Source/Objects/{}/Mesh'.format(army)):
-            os.makedirs('./Source/Objects/{}/Mesh'.format(army))
-        if not os.path.exists('./Source/Objects/{}/Material'.format(army)):
-            os.makedirs('./Source/Objects/{}/Material'.format(army))
+        if not os.path.exists('./Source/3DObjects/{}'.format(army)):
+            os.makedirs('./Source/3DObjects/{}'.format(army))
+        if not os.path.exists('./Source/3DObjects/{}/Mesh'.format(army)):
+            os.makedirs('./Source/3DObjects/{}/Mesh'.format(army))
+        if not os.path.exists('./Source/3DObjects/{}/Material'.format(army)):
+            os.makedirs('./Source/3DObjects/{}/Material'.format(army))
 
         OutMeshPath = './Source/Dataoutput/{}/mesh.txt'.format(army)
-        OutObjMeshPath = './Source/Objects/{}/Mesh/'.format(army)
-        OutObjMaterialPath = './Source/Objects/{}/Material/'.format(army)
+        OutObjMeshPath = './Source/3DObjects/{}/Mesh/'.format(army)
+        OutObjMaterialPath = './Source/3DObjects/{}/Material/'.format(army)
     else:
-        army = 'Ultramarines'
-        InJsonPath = './TTSJSON/{}/'.format(army)
+        army = 'AdeptaSororitas'
+        InJsonPath = './Source/TTSJSON/{}/'.format(army)
 
-        if not os.path.exists('./Dataoutput/{}'.format(army)):
-            os.makedirs('./Dataoutput/{}'.format(army))
-        if not os.path.exists('./Objects/{}'.format(army)):
-            os.makedirs('./Objects/{}'.format(army))
-        if not os.path.exists('./Objects/{}/Mesh'.format(army)):
-            os.makedirs('./Objects/{}/Mesh'.format(army))
-        if not os.path.exists('./Objects/{}/Material'.format(army)):
-            os.makedirs('./Objects/{}/Material'.format(army))
+        if not os.path.exists('./Source/Dataoutput/{}'.format(army)):
+            os.makedirs('./Source/Dataoutput/{}'.format(army))
+        if not os.path.exists('./Source/3DObjects/{}'.format(army)):
+            os.makedirs('./Source/3DObjects/{}'.format(army))
+        if not os.path.exists('./Source/3DObjects/{}/Mesh'.format(army)):
+            os.makedirs('./Source/3DObjects/{}/Mesh'.format(army))
+        if not os.path.exists('./Source/3DObjects/{}/Material'.format(army)):
+            os.makedirs('./Source/3DObjects/{}/Material'.format(army))
 
-        OutMeshPath = './Dataoutput/{}/mesh.txt'.format(army)
-        OutObjMeshPath = './Objects/{}/Mesh/'.format(army)
-        OutObjMaterialPath = './Objects/{}/Material/'.format(army)
+        OutMeshPath = './Source/Dataoutput/{}/mesh.txt'.format(army)
+        OutObjMeshPath = './Source/3DObjects/{}/Mesh/'.format(army)
+        OutObjMaterialPath = './Source/3DObjects/{}/Material/'.format(army)
     files = [json.load(open(InJsonPath + f))['ObjectStates'] for f in os.listdir(InJsonPath)]
     models = []
     for file in files:
@@ -51,7 +52,8 @@ def main():
     with open(OutMeshPath, 'w') as f:
         for i, model in enumerate(models):
             if 'CustomMesh' in model.keys():
-                nickname = model['Nickname'].replace(' ', '').replace('-', '').replace('/', '').replace('+', '').replace('&', '').replace(' ', '')
+                name = re.findall('([A-Z][a-z]*)', model['Nickname'])
+                nickname = ''.join(name)
                 f.write('{} = '.format(nickname) + '{\n')
                 f.write('\t"scaleX": {},\n'.format(model['Transform']['scaleX']))
                 f.write('\t"scaleY": {},\n'.format(model['Transform']['scaleY']))
@@ -60,9 +62,16 @@ def main():
                 f.write('}\n')
                 f.write('\n')
                 f.write('\n')
-                mesh = trimesh.load_mesh(file_obj=io.StringIO(requests.get(model['CustomMesh']['MeshURL']).content.decode('utf-8')), file_type='obj')
-                mesh.export(OutObjMeshPath + '{}.obj'.format(nickname + '_' + str(i)))
-                urllib.request.urlretrieve(model['CustomMesh']['DiffuseURL'], OutObjMaterialPath + '{}.png'.format(nickname + '_' + str(i)))
+                mesh = trimesh.load_mesh(file_obj=io.StringIO(requests.get(model['CustomMesh']['MeshURL']).
+                                                              content.decode('utf-8')), file_type='obj')
+                if not os.path.exists(OutObjMeshPath + '{}'.format(name[0])):
+                    os.makedirs(OutObjMeshPath + '{}'.format(name[0]))
+                mesh.export(OutObjMeshPath + '{}/{}.obj'.format(name[0], nickname + '_' + str(i)))
+                if not os.path.exists(OutObjMaterialPath + '{}'.format(name[0])):
+                    os.makedirs(OutObjMaterialPath + '{}'.format(name[0]))
+                urllib.request.urlretrieve(model['CustomMesh']['DiffuseURL'],
+                                           OutObjMaterialPath + '{}/{}.png'.format(name[0],
+                                                                                   nickname + '_' + str(i)))
     f.close()
 
 

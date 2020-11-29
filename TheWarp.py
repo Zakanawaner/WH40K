@@ -1,5 +1,7 @@
 from flask import Flask, request, make_response
-
+import inspect
+from Objects.Factions.Imperium.AdeptaSororitas import Units
+import random
 
 # Server initialization
 app = Flask(__name__)
@@ -11,8 +13,9 @@ app = Flask(__name__)
 
 @app.route('/test', methods=["POST"])
 def test():
-    r = dict(request.form)
-    return make_response("ok", 200)
+    classes = [m for m in inspect.getmembers(Units, inspect.isclass) if m[0] in dict(request.form)['unitName']]
+    m = classes[0][1]()
+    return make_response({"x": random.randint(-6, 6), "y": random.randint(-6, 6)}, 200)
 
 
 if __name__ == "__main__":

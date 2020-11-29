@@ -135,7 +135,7 @@ class Vehicle:
             self.Gun6 = weapon
             self.POINTS += self.Gun6.POINTS
 
-    def damage_update(self, M=False, WS=False, BS=False, A=False, ):
+    def damage_update(self, M=False, WS=False, BS=False, A=False):
         if self.W >= self.FirstW:
             self.M = self.FirstM if M else self.M
             self.WS = self.FirstWS if WS else self.WS

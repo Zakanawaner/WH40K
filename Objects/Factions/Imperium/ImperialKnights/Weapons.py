@@ -1,4 +1,4 @@
-from Objects.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun
+from Objects.Factions.Imperium.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun
 
 
 class _Flamer(Weapon):

@@ -1,4 +1,12 @@
-from Objects.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun
+from Objects.Factions.Imperium.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun
+
+
+class WeaponList:
+    RangedWeapons = ['BoltPistol', 'Boltgun', 'CombiFlamer', 'CombiMelta', 'CombiPlasma', 'CondemnorBoltgun']
+    SpecialWeapons = ['Flamer', 'MeltaGun', 'StormBolter']
+    Pistols = ['BoltPistol', 'HandFlamer', 'PlasmaPistol', 'InfernoPistol']
+    MeleeWeapons = ['ChainSword', 'PowerMaul', 'PowerSword']
+    HeavyWeapons = ['HeavyBolter', 'HeavyFlamer', 'MultiMelta']
 
 
 class Combi(Weapon):

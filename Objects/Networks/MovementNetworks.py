@@ -7,24 +7,26 @@ import torch.optim as optim
 
 class MoveHyperParameters:
     def __init__(self):
+        # Move Hyperparameters
         self.MoveLearningRate = 0.005
-        self.MoveBatchSize = 32
+        self.MoveBatchSize = 64
         self.MoveGamma = 0.2
         self.MoveEpsilonDec = 0.9995
         self.MoveEpsilonInc = 0.9999
-        self.MoveEpsilonMax = 0.3
+        self.MoveEpsilonMax = 0.5
         self.MoveEpsilonMin = 0.2
         self.MoveEpsilon = self.MoveEpsilonMax
-        self.MoveInputDims = 6
-        self.MoveFirstLayerDims = 64
+        self.MoveInputDims = 10
+        self.MoveFirstLayerDims = 32
         self.MoveSecondLayerDims = 32
         self.MoveThirdLayerDims = 64
         self.MoveFourthLayerDims = 32
         self.MoveActionDims = 24
         self.MoveActionSpace = numpy.arange(self.MoveActionDims)
         self.MoveMaximalMemory = 100000
-        self.MoveTargetCopyValue = 20
+        self.MoveTargetCopyValue = 100
 
+        # Coherency Hyperparameters
         self.CoherencyLearningRate = 0.005
         self.CoherencyBatchSize = 32
         self.CoherencyGamma = 0.2
@@ -42,6 +44,9 @@ class MoveHyperParameters:
         self.CoherencyTargetCopyValue = 20
 
 
+# This network will manage the movement toward a target.
+# INPUTS : the x and y from itself and the target (the enemy also, but always 0)
+# OUTPUTS: direction of the movement
 class MoveNetwork(nn.Module):
     def __init__(self,
                  InputDims,

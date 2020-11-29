@@ -8,8 +8,11 @@
             -GameHistoy: Folder with the evolution of the game.
             -Graphs: Folder with the result of the trainings.
     -Objects: Objects of the game.
-        -Armies: Package with the armies
+        -Factions: Package with the armies
             -Imperium
+                -Common: Objects for all the imperium
+                    -Armies (infantry, sergeant, vehicle...)
+                    -Weapons (melee, melta, flamer, supercharge...)
                 -AdeptusAstartes
                     -DarkAngels
                     -BloodAngels
@@ -50,3 +53,28 @@
                     -ThousandSons
                     -ChaosSpaceMarines
                     -RenegadeKnights
+        -Networks
+            -Models: Folder with the saved models of the networks after training
+            -MovementNetworks.py: Neural networks for moving on the game
+            ...
+        -Races
+            -Humans.py: Script for the human (body, brain, move, etc..)
+            -Orks.py
+            ...
+    -ProjectInfo
+        -Notes: Notes and stuff to do
+        -Hierarchy: This file.
+    -Source
+        -3DObjects: Where GetMesh.py will store the .obj files and the materials for Unity
+        -Codex: Codex and core rules of the game
+        -DataInput: Where GetData.py will get the information for the code generator
+        -DataOutput: Where GetData.py will generate the code.
+        -TTSJSON: These are the Json scrips from tts
+        -GetData.py: Code generator
+        -GetMesh.py: 3D objects generator
+    -TrainingLoops
+        -Movement.py: Training loops for movement
+        ...
+    -FirstApproach.py: Script to test the trainings
+    -test.py: script for testing stuff
+    -TheWarp: Flask application to communicate with Unity

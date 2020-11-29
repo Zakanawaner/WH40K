@@ -1,4 +1,4 @@
-from Objects.Common.Armies import Infantry, Vehicle, Sergeant
+from Objects.Factions.Imperium.Common.Armies import Infantry, Vehicle, Sergeant
 from Objects.Races.Humans import Human
 from . import Mesh, Weapons
 
@@ -17,7 +17,7 @@ class Canoness(Infantry, Human):
         self.Ld = 9
         self.Gun1 = Weapons.BoltPistol()
         self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.ChainSword()
+        self.Gun2 = Weapons.ChainSword(A=self.A, S=self.S)
         self.POINTS += self.Gun2.POINTS
         self.Gun3 = Weapons.FragGrenade()
         self.POINTS += self.Gun3.POINTS
@@ -39,7 +39,7 @@ class Celestine(Infantry, Human):
         self.A = 6
         self.Ld = 9
         self.Sv = 2
-        self.Gun1 = Weapons.TheArdentBlade()
+        self.Gun1 = Weapons.TheArdentBlade(A=self.A, S=self.S)
         self.POINTS += self.Gun1.POINTS
 
 
@@ -47,7 +47,7 @@ class TriumphOfSaintKatherine(Vehicle, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.TheTriumphofSaintKatherine)
-        self.POINTS = 0
+        self.POINTS = 185
         self.S = 3
         self.T = 3
         self.W = 18
@@ -70,9 +70,9 @@ class TriumphOfSaintKatherine(Vehicle, Human):
         self.POINTS += self.Gun5.POINTS
         self.Gun6 = Weapons.BoltPistol()
         self.POINTS += self.Gun6.POINTS
-        self.Gun7 = Weapons.TheMartyrSword()
+        self.Gun7 = Weapons.TheMartyrSword(A=self.A, S=self.S)
         self.POINTS += self.Gun7.POINTS
-        self.Gun8 = Weapons.RelicWeapons()
+        self.Gun8 = Weapons.RelicWeapons(A=self.A, S=self.S)
         self.POINTS += self.Gun8.POINTS
         self.Gun9 = Weapons.FragGrenade()
         self.POINTS += self.Gun9.POINTS
@@ -84,7 +84,7 @@ class JunithEruita(Vehicle, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.JunithEruita)
-        self.POINTS = 0
+        self.POINTS = 110
         self.M = 10
         self.WS = 2
         self.BS = 2
@@ -96,7 +96,7 @@ class JunithEruita(Vehicle, Human):
         self.POINTS += self.Gun1.POINTS
         self.Gun2 = Weapons.HeavyFlamer()
         self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.TheMaceOfCastigation()
+        self.Gun3 = Weapons.TheMaceOfCastigation(A=self.A, S=self.S)
         self.POINTS += self.Gun3.POINTS
 
 
@@ -116,7 +116,7 @@ class Missionary(Infantry, Human):
         self.POINTS += self.Gun1.POINTS
         self.Gun2 = Weapons.LasPistol()
         self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.ChainSword()
+        self.Gun3 = Weapons.ChainSword(A=self.A, S=self.S)
         self.POINTS += self.Gun3.POINTS
         self.Gun4 = Weapons.FragGrenade()
         self.POINTS += self.Gun4.POINTS
@@ -128,7 +128,7 @@ class BattleSister(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.BattleSisterBoltgunBoltPistol)
-        self.POINTS = 0
+        self.POINTS = 9
         self.WS = 4
         self.S = 3
         self.T = 3
@@ -140,8 +140,6 @@ class BattleSister(Infantry, Human):
         self.POINTS += self.Gun3.POINTS
         self.Gun4 = Weapons.KrakGrenades()
         self.POINTS += self.Gun4.POINTS
-        self.HasBoltGun = True
-        self.HasSimulacrumImperialis = False
 
 
 class SisterSuperior(BattleSister, Sergeant):
@@ -163,7 +161,7 @@ class Preacher(Infantry, Human):
         self.Sv = 6
         self.Gun1 = Weapons.LasPistol()
         self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.ChainSword()
+        self.Gun2 = Weapons.ChainSword(A=self.A, S=self.S)
         self.POINTS += self.Gun2.POINTS
 
 
@@ -171,7 +169,7 @@ class GeminaeSuperia(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.GeminaeSuperiaBoltPistolPowerSword)
-        self.POINTS = 0
+        self.POINTS = 16
         self.M = 12
         self.S = 3
         self.T = 3
@@ -180,7 +178,7 @@ class GeminaeSuperia(Infantry, Human):
         self.Ld = 9
         self.Gun1 = Weapons.BoltPistol()
         self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.PowerSword()
+        self.Gun2 = Weapons.PowerSword(A=self.A, S=self.S)
         self.POINTS += self.Gun2.POINTS
         self.Gun3 = Weapons.FragGrenade()
         self.POINTS += self.Gun3.POINTS
@@ -192,13 +190,13 @@ class RepentiaSuperior(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.RepentiaSuperiorNeuralWhips)
-        self.POINTS = 0
+        self.POINTS = 35
         self.S = 3
         self.T = 3
         self.W = 4
         self.A = 4
         self.Ld = 8
-        self.Gun1 = Weapons.NeuralWhips()
+        self.Gun1 = Weapons.NeuralWhips(A=self.A, S=self.S)
         self.POINTS += self.Gun1.POINTS
         self.Gun2 = Weapons.FragGrenade()
         self.POINTS += self.Gun2.POINTS
@@ -210,13 +208,13 @@ class SisterRepentia(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.SisterRepentiaPenitentEviscerator)
-        self.POINTS = 0
+        self.POINTS = 13
         self.S = 3
         self.T = 3
         self.A = 2
         self.Ld = 8
         self.Sv = 7
-        self.Gun1 = Weapons.PenitentEviscerator()
+        self.Gun1 = Weapons.PenitentEviscerator(A=self.A, S=self.S)
         self.POINTS += self.Gun1.POINTS
 
 
@@ -224,7 +222,7 @@ class Celestian(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.CelestianBoltgunBoltPistol)
-        self.POINTS = 0
+        self.POINTS = 10
         self.S = 3
         self.T = 3
         self.A = 2
@@ -248,7 +246,7 @@ class Zephyrim(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.ZephyrimBoltPistolPowerSword)
-        self.POINTS = 0
+        self.POINTS = 13
         self.M = 12
         self.S = 3
         self.T = 3
@@ -256,7 +254,7 @@ class Zephyrim(Infantry, Human):
         self.Ld = 8
         self.Gun1 = Weapons.BoltPistol()
         self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.PowerSword()
+        self.Gun2 = Weapons.PowerSword(A=self.A, S=self.S)
         self.POINTS += self.Gun2.POINTS
         self.Gun3 = Weapons.FragGrenade()
         self.POINTS += self.Gun3.POINTS
@@ -282,7 +280,7 @@ class Dialogus(Infantry, Human):
         self.Ld = 8
         self.Gun1 = Weapons.BoltPistol()
         self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.Dialogusstaff()
+        self.Gun2 = Weapons.Dialogusstaff(A=self.A, S=self.S)
         self.POINTS += self.Gun2.POINTS
 
 
@@ -299,7 +297,7 @@ class Hospitaller(Infantry, Human):
         self.Ld = 8
         self.Gun1 = Weapons.BoltPistol()
         self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.ChirurgeonStools()
+        self.Gun2 = Weapons.ChirurgeonStools(A=self.A, S=self.S)
         self.POINTS += self.Gun2.POINTS
 
 
@@ -325,14 +323,14 @@ class Crusader(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.CrusaderPowerSword)
-        self.POINTS = 0
+        self.POINTS = 9
         self.BS = 4
         self.S = 3
         self.T = 3
         self.A = 2
         self.Sv = 4
         self.InvSv = 3
-        self.Gun1 = Weapons.PowerSword()
+        self.Gun1 = Weapons.PowerSword(A=self.A, S=self.S)
         self.POINTS += self.Gun1.POINTS
 
 
@@ -340,13 +338,13 @@ class DeathCultAssassin(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.DeathCultAssassinDeathCultPowerBlades)
-        self.POINTS = 0
+        self.POINTS = 13
         self.M = 7
         self.BS = 4
         self.T = 3
         self.A = 4
         self.Sv = 5
-        self.Gun1 = Weapons.DeathCultPowerBlades()
+        self.Gun1 = Weapons.DeathCultPowerBlades(A=self.A, S=self.S)
         self.POINTS += self.Gun1.POINTS
 
 
@@ -354,7 +352,7 @@ class ArcoFlagellant(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.ArcoflaggellantArcoFlails)
-        self.POINTS = 0
+        self.POINTS = 13
         self.M = 7
         self.WS = 4
         self.BS = 7
@@ -362,7 +360,7 @@ class ArcoFlagellant(Infantry, Human):
         self.W = 2
         self.A = 2
         self.Sv = 7
-        self.Gun1 = Weapons.ArcoFlails()
+        self.Gun1 = Weapons.ArcoFlails(A=self.A, S=self.S)
         self.POINTS += self.Gun1.POINTS
 
 
@@ -376,7 +374,7 @@ class Dominion(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.DominionBoltgunBoltPistol)
-        self.POINTS = 0
+        self.POINTS = 10
         self.WS = 4
         self.S = 3
         self.T = 3
@@ -399,7 +397,7 @@ class Seraphim(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.Seraphim2xBoltPistols)
-        self.POINTS = 0
+        self.POINTS = 11
         self.M = 12
         self.S = 3
         self.T = 3
@@ -450,7 +448,7 @@ class Mortifier(Vehicle, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.Mortifier2xHeavyBolters2xPenitentFlails)
-        self.POINTS = 0
+        self.POINTS = 36
         self.M = 9
         self.S = 5
         self.T = 5
@@ -460,9 +458,9 @@ class Mortifier(Vehicle, Human):
         self.POINTS += self.Gun1.POINTS
         self.Gun2 = Weapons.HeavyBolter()
         self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.PenitentFlail()
+        self.Gun3 = Weapons.PenitentFlail(A=self.A, S=self.S)
         self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.PenitentFlail()
+        self.Gun4 = Weapons.PenitentFlail(A=self.A, S=self.S)
         self.POINTS += self.Gun4.POINTS
 
 
@@ -470,6 +468,7 @@ class Anchorite(Mortifier):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.Anchorite2xHeavyBolters2xPenitentFlails)
+        self.POINTS = 42
         self.Sv = 3
 
 
@@ -477,7 +476,7 @@ class Retributor(Infantry, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.RetributorBoltgunBoltPistol)
-        self.POINTS = 0
+        self.POINTS = 10
         self.WS = 4
         self.S = 3
         self.T = 3
@@ -500,7 +499,7 @@ class PenitentEngine(Vehicle, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.PenitentEngine2xHeavyFlamers)
-        self.POINTS = 0
+        self.POINTS = 28
         self.M = 7
         self.WS = 4
         self.BS = 5
@@ -522,7 +521,7 @@ class SororitasRhino(Vehicle, Human):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.SororitasRhinoStormBolter)
-        self.POINTS = 0
+        self.POINTS = 65
         self.WS = 6
         self.W = 10
         self.FirstM = 12

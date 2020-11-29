@@ -1,4 +1,4 @@
-from Objects.Common.Armies import Infantry, Vehicle, Sergeant
+from Objects.Factions.Imperium.Common.Armies import Infantry, Vehicle, Sergeant
 from Objects.Races.Humans import Human
 from . import Mesh, Weapons as DarkAngelWeapons
 

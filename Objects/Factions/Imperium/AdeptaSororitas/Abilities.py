@@ -269,3 +269,44 @@ invulnerable save.'''
 BerserkKillingMachines = '''When a model in this unit
 would lose a wound, roll one D6; on a 5+ that wound
 is not lost.'''
+
+Vanguard = '''At the start of the first battle round, before the first turn begins, this unit can move as if it were your
+Movement phase. This unit must end that move more than 9" away from any enemy models. If both players have
+units that can do this, the player who is taking the first turn moves their units first.'''
+
+SmokeLaunchers = '''Once per battle, instead of shooting
+in your Shooting phase, this model can use its smoke
+launchers. Until the start of your next Shooting phase,
+when resolving an attack made with a ranged weapon
+against this model, subtract 1 from the hit roll.'''
+
+FaithfulAdvance = '''Models in this unit do not suffer the penalty for moving and firing Heavy weapons.'''
+
+RitesOfFire = '''Add 4" to the Range characteristic of heavy flamers models in this unit are equipped with.'''
+
+ArmoriumCherub = '''If this unit has an Armorium Cherub, then after a model in this unit shoots with a ranged
+weapon, that Armorium Cherub can reload that model’s weapon. If it does, that Armorium Cherub is removed
+from play and that model can immediately shoot with that ranged weapon again.
+An Armorium Cherub is represented by an Armorium Cherub model, but does not count as a model for any rules
+purposes. Whilst a unit with an Armorium Cherub is on the battlefield, that Armorium Cherub must be within 2"
+of it.'''
+
+AnguishOfTheUnredeemed = '''When a model in this
+unit is destroyed, roll one D6 before removing it from
+play. On a 4+ it metes out its final vengeance, and each
+enemy unit within 1" suffers D3 mortal wounds.'''
+
+NoReprieve = '''When a model in this unit would lose a
+wound, roll one D6; on a 6 that wound is not lost.'''
+
+BlazeOfAgony = '''When you choose this unit to shoot
+with in your Shooting phase, you can choose for heavy
+bolters that models in this unit are equipped with to
+have a Type characteristic of Assault 3 until the end of
+that phase, or for heavy flamers that models in this unit
+are equipped with to have a Type characteristic of Pistol
+D6 until the end of that phase.'''
+
+SelfRepair = '''If this model has lost any wounds, you can
+roll one D6 at the start of your turn; on a 6 this model
+regains 1 lost wound.'''
