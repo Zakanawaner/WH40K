@@ -1,4 +1,5 @@
 import random
+from shapely.geometry import Point
 
 
 # Template classes
@@ -13,6 +14,7 @@ class Weapon:
         self.ABILITY = None
         self.LIST = None
         self.TYPE = None
+        self.ShootingRange = None
 
     @staticmethod
     def throw_die(die=6):
@@ -23,6 +25,13 @@ class Weapon:
 
     def damage(self):
         return [self.throw_die() for _ in range(self.D)]
+
+    def range_clean(self, body):
+        self.ShootingRange = Point(body.centroid.x, body.centroid.y).buffer(self.RANGE)
+        return self.ShootingRange
+
+    def range_on_board(self, body, board):
+        pass
 
 
 class Melee:

@@ -1,0 +1,164 @@
+Objects
+    Boards
+        SimpleBoard.py
+            C Board
+                add_object()
+                plot()
+    Factions
+        Chaos
+            ... TODO Complete
+        Imperium
+            AdeptaSororitas
+                Abilities.py
+                Army.py
+                    C Orders
+                    C UnboundArmy
+                        calculate_points()
+                        add_squad()
+                        ... TODO Complete
+                    ... TODO Complete
+                Mesh.py
+                Squads.py
+                    C Squad -> Child of Unit in Generic.Models
+                        calculate_points()
+                        add_soldier()
+                    ... Children of Squad here
+                Units.py
+                    ... Children of Infantry, Vehicle in Factions.Imperium.Common and of Human in Races.Humans
+                Weapons.py
+                    C WeaponList
+                    C Combi -> Child of Weapon in Factions.Imperium.Common.Weapons
+                        set_1()
+                        reset_1()
+                        set_2()
+                        reset_2()
+                    C _Flamer -> Child of Weapon in Factions.Imperium.Common.Weapons
+                    C Plasma -> Child of Weapon in Factions.Imperium.Common.Weapons
+                        set_supercharge()
+                        reset_supercharge()
+                    C Melta -> Child of Weapon in Factions.Imperium.Common.Weapons
+                    ... Children of Combi, _Flamer, Plasma, Melta here and DiceAttackGun, DiceDamageGun, Melee, Weapon in Factions.Imperium.Common.Weapons
+            AdeptusAstartes
+                DarkAngels
+                    Abilities.py
+                        ... TODO Complete
+                    Army.py
+                        ... TODO Complete
+                    Mesh.py
+                        ... TODO Complete
+                    Squads.py
+                        C Squad -> Child of Unit in Generic.Models
+                            calculate_points()
+                            add_soldier()
+                        ... Children of Squad here
+                    Units.py
+                        ... Children of Infantry, Vehicle in Factions.Imperium.Common and of Human in Races.Humans
+                    Weapons.py
+                        C WeaponList
+                        C Combi -> Child of Weapon in Factions.Imperium.Common.Weapons
+                            set_1()
+                            reset_1()
+                            set_2()
+                            reset_2()
+                        C _Flamer -> Child of Weapon in Factions.Imperium.Common.Weapons
+                        C Plasma -> Child of Weapon in Factions.Imperium.Common.Weapons
+                            set_supercharge()
+                            reset_supercharge()
+                        C Melta -> Child of Weapon in Factions.Imperium.Common.Weapons
+                        ... Children of Combi, _Flamer, Plasma, Melta here and DiceAttackGun, DiceDamageGun, Melee, Weapon in Factions.Imperium.Common.Weapons
+                    ... TODO Complete
+                ImperialKnights
+                    Weapons.py
+                        C _Flamer -> Child of Weapon in Factions.Imperium.Common.Weapons
+                        ... TODO Complete
+                    ... TODO Complete
+                ... TODO Complete
+            Common
+                Armies.py
+                    C Infantry
+                        replace_gun_1()
+                        replace_gun_2()
+                        replace_gun_3()
+                        replace_gun_4()
+                    C Sergeant
+                        choose_sergeant_weapon()
+                        replace_gun_5()
+                    C Vehicle
+                        replace_gun_1()
+                        replace_gun_2()
+                        replace_gun_3()
+                        replace_gun_4()
+                        replace_gun_5()
+                        replace_gun_6()
+                        damage_update()
+                    ... TODO Complete
+                Weapons.py
+                    C Weapon
+                        throw_die()
+                        shoot()
+                        damage()
+                        range_clean()
+                        range_on_board()
+                    C Melee
+                        throw_die()
+                        punch()
+                        damage()
+                    C DiceAttackGun -> Child of Weapon here
+                        set_attack_dices()
+                        shoot()
+                    C DiceDamageGun -> Child of Weapon here
+                        set_damage_dices()
+                        damage()
+                    C DiceStrengthGun -> Child of Weapon here
+                        set_strength_dices()
+                        set_strength()
+                    C DiceArmoryPenetrationGun -> Child of Weapon here
+                        set_armory_penetration_dices()
+                        set_armory_penetration()
+                ... TODO Complete
+            ... TODO Complete
+        Xenos
+            Orks
+                Weapons.py
+                ... TODO Complete
+            ... TODO Complete
+    Generic
+        Models.py
+            C Model
+                info()
+            C Unit
+                info()
+                init_positions_randomly()
+            ... TODO Complete
+    Networks
+        MovementNetwork.py
+            C MoveHyperParameters
+            C MoveNetwork -> Child of nn.Module Torch
+                forward()
+            C CoherencyNetwork -> Child of nn.Module Torch
+                forward()
+        ... TODO Complete
+    Races
+        Humans.py
+            C Brain -> Child of MoveHyperParameters in Networks.MovementNetwork
+                store_transition()
+                choose()
+                learn()
+                epsilon_increase()
+                epsilon_decrease()
+                update_target_network()
+                save_model()
+                load_model()
+            C Body
+                update_body()
+            C Human -> Child of Body and Brain here and Model in Generic.Models
+                throw_die()
+                set_position()
+                move_range_clean()
+                move_range_on_board()
+                move()
+            ... TODO Complete
+        Orks.py
+            ... TODO Complete
+        ... TODO Complete
+

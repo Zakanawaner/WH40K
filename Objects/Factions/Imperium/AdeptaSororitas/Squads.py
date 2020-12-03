@@ -1,12 +1,14 @@
 from . import Units, Weapons, Abilities
+from Objects.Generic.Models import Unit
 from Messages import Messages
 
 
-class Squad:
-    def __init__(self, Power, MaxUnits, AddedPower, steps=1):  # TODO Integrar las fases de añadir puntos
-        self.Points = 0
+class Squad(Unit):
+    def __init__(self, Power, MaxUnits, AddedPower, UnitsForIncrement=None):  # TODO terminar la puntuación de poder
+        super().__init__()
         self.Power = Power
-        self.Units = []
+        self.PowerStage = -1
+        self.UnitsForIncrement = UnitsForIncrement
         self.PowerAdded = AddedPower
         self.MaxUnits = MaxUnits
         self.FactionKeywords = ['IMPERIUM', 'ADEPTUS MINISTORUM', 'ADEPTA SORORITAS']
@@ -18,8 +20,15 @@ class Squad:
 
     def add_soldier(self, unit):
         if len(self.Units) < self.MaxUnits:
-            self.Power += self.PowerAdded if len(self.Units) == 5 else 0
+            unit.SquadPosition = self.SquadPosition
+            unit.ModelPosition = len(self.Units)
             self.Units.append(unit)
+            if self.UnitsForIncrement is not None:
+                for i in range(len(self.UnitsForIncrement)):
+                    if len(self.Units) >= self.UnitsForIncrement[i] and i > self.PowerStage:
+                        self.Power += self.PowerAdded[i]
+                        self.PowerStage = i
+                        break
             self.calculate_points()
         else:
             print(Messages.MaxSoldiers)
@@ -27,7 +36,7 @@ class Squad:
 
 class Canoness(Squad):
     def __init__(self, order):
-        super().__init__(Power=3, MaxUnits=1, AddedPower=0)
+        super().__init__(Power=3, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.append(order)
         self.Keywords = ["CHARACTER", "INFANTRY", "CANONESS"]
         self.ABILITIES = [Abilities.ActsOfFaith,
@@ -42,7 +51,18 @@ class Canoness(Squad):
         self.HasRodOfOffice = False
         self.HasNullRod = False
         self.HasBrazierOfHolyFire = False
+        self.SquadType = 'HQ'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''This model can be equipped with 1 boltgun and 1 power sword instead of 1 bolt 
+        pistol and 1 chainsword. If thismodel is equipped with 1 boltgun and 1 power sword, it additionally has a 
+        rod of office.''')
+        self.WargeatOptions.append('''This model can be equipped with one of the following instead of 1 bolt pistol: 
+        1 condemnor boltgun; 1 weaponfrom the Pistols list.''')
+        self.WargeatOptions.append('''This model can be equipped with one of the following instead of 1 chainsword: 
+        1 power sword; 1 blessed blade.''')
+        self.WargeatOptions.append('''If this model is equipped with 1 chainsword, it can have a brazier of holy fire 
+        or a null rod.''')
 
     def replace_pistol_and_sword(self):
         self.Units[0].replace_gun_1(Weapons.Boltgun())
@@ -66,7 +86,7 @@ class Canoness(Squad):
             print(Messages.IllegalWeapon)
 
     def select_null_rod(self):
-        if self.Units[0].Gun2.__class__.__name__ == 'ChainSword':
+        if self.Units[0].Gun[1].__class__.__name__ == 'ChainSword':
             self.HasNullRod = True
             self.Units[0].POINTS += 12
             self.calculate_points()
@@ -74,7 +94,7 @@ class Canoness(Squad):
             print(Messages.IllegalWeapon)
 
     def select_brazier_of_holy_fire(self):
-        if self.Units[0].Gun2.__class__.__name__ == 'ChainSword':
+        if self.Units[0].Gun[1].__class__.__name__ == 'ChainSword':
             self.HasBrazierOfHolyFire = True
             self.Units[0].POINTS += 8
             self.calculate_points()
@@ -89,7 +109,7 @@ class Canoness(Squad):
 
 class Celestine(Squad):
     def __init__(self):
-        super().__init__(Power=8, MaxUnits=1, AddedPower=0)
+        super().__init__(Power=8, MaxUnits=1, AddedPower=[0])
         self.Keywords = ["CHARACTER", "INFANTRY", "JUMP PACK", "FLY", "CELESTINE"]
         self.ABILITIES = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
@@ -99,12 +119,14 @@ class Celestine(Squad):
                           Abilities.SaintlyBlessings,
                           Abilities.MiraculousIntervention]
         self.Units.append(Units.Celestine())
+        self.SquadType = 'HQ'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class TriumphOfSaintKatherine(Squad):
     def __init__(self):
-        super().__init__(Power=9, MaxUnits=1, AddedPower=0)
+        super().__init__(Power=9, MaxUnits=1, AddedPower=[0])
         self.Keywords = ["CHARACTER", "INFANTRY", "TRIUMPH OF SAINT KATHERINE"]
         self.ABILITIES = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
@@ -114,12 +136,14 @@ class TriumphOfSaintKatherine(Squad):
                           Abilities.SolemnProcession,
                           Abilities.RelicsOfTheMatriarchs]
         self.Units.append(Units.TriumphOfSaintKatherine())
+        self.SquadType = 'HQ'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class JunithEruita(Squad):
     def __init__(self):
-        super().__init__(Power=6, MaxUnits=1, AddedPower=0)
+        super().__init__(Power=6, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.append('ORDER OF OUR MARTYRED LADY')
         self.Keywords = ["CHARATER", "VEHICLE", "FLY", "CANONESS SUPERIOR", "JUNITH ERUITA"]
         self.ABILITIES = [Abilities.ActsOfFaith,
@@ -130,12 +154,14 @@ class JunithEruita(Squad):
                           Abilities.ThePulpitOfSaintHollinesBasilica,
                           Abilities.Explodes]
         self.Units.append(Units.JunithEruita())
+        self.SquadType = 'HQ'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class Missionary(Squad):
     def __init__(self):
-        super().__init__(Power=2, MaxUnits=1, AddedPower=0)
+        super().__init__(Power=2, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.pop(2)
         self.Keywords = ["CHARACTER", "INFANTRY", "MINISTORUM PRIEST", "MISSIONARY"]
         self.ABILITIES = [Abilities.Zealot,
@@ -144,7 +170,11 @@ class Missionary(Squad):
                           Abilities.LoneMission,
                           Abilities.WordOfTheEmperor]
         self.Units.append(Units.Missionary())
+        self.SquadType = 'HQ'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''This model can be equipped with 1 bolt pistol and 1 shotgun instead of 1 
+        autogun and 1 laspistol.''')
 
     def replace_autogun_and_laspistol(self):
         self.Units[0].replace_gun_1(Weapons.BoltPistol())
@@ -156,7 +186,7 @@ class Missionary(Squad):
 
 class BattleSistersSquad(Squad):
     def __init__(self, order):
-        super().__init__(Power=4, MaxUnits=15, AddedPower=4, steps=2)
+        super().__init__(Power=4, MaxUnits=15, AddedPower=[2, 2], UnitsForIncrement=[5, 10])
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "BATTLE SISTERS SQUAD"]
         self.ABILITIES = [Abilities.ActsOfFaith,
@@ -173,7 +203,21 @@ class BattleSistersSquad(Squad):
         self.SoldierHasHeavyWeapon = False
         self.SoldierWithSimulacrumImperialis = -1
         self.HasIncensorCherub = False
+        self.SquadType = 'Troops'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''1 Battle Sister can be equipped with 1 weapon from the Special Weapons list 
+        instead of 1 boltgun.''')
+        self.WargeatOptions.append('''1 Battle Sister can be equipped with one of the following instead of 1 boltgun: 
+        1 weapon from the Heavy Weaponslist; 1 weapon from the Special Weapons list.''')
+        self.WargeatOptions.append('''1 Battle Sister equipped with 1 boltgun can have a Simulacrum Imperialis.''')
+        self.WargeatOptions.append('''The Sister Superior can additionally be equipped with 1 weapon from the Melee 
+        Weapons list, or can be equippedwith 1 weapon from the Melee Weapons list instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Sister Superior can be equipped with 1 weapon from the Ranged Weapons list 
+        instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Sister Superior can be equipped with 1 weapon from the Pistols list instead 
+        of 1 bolt pistol.''')
+        self.WargeatOptions.append('''The unit can have an Incensor Cherub.''')
 
     def take_incensor_cherub(self):
         if not self.HasIncensorCherub:
@@ -227,7 +271,7 @@ class BattleSistersSquad(Squad):
             print(Messages.IllegalWeapon)
 
     def take_simulacrum_imperialis(self, soldier=1):
-        if self.Units[soldier].Gun2.__class__.__name__ == 'Boltgun':
+        if self.Units[soldier].Gun[1].__class__.__name__ == 'Boltgun':
             self.Units[soldier].HasSimulacrumImperialis = True
             self.SoldierWithSimulacrumImperialis = soldier
             self.Units[soldier].POINTS += 5
@@ -246,7 +290,7 @@ class BattleSistersSquad(Squad):
 
 class Preacher(Squad):
     def __init__(self):
-        super().__init__(Power=1, MaxUnits=1, AddedPower=0)
+        super().__init__(Power=1, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.pop(2)
         self.Keywords = ["CHARACTER", "INFANTRY", "MINISTORUM PRIEST", "PREACHER"]
         self.ABILITIES = [Abilities.Zealot,
@@ -254,12 +298,14 @@ class Preacher(Squad):
                           Abilities.Rosarius,
                           Abilities.WarHymns]
         self.Units.append(Units.Preacher())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class GeminaeSuperiaSquad(Squad):
     def __init__(self):
-        super().__init__(Power=1, MaxUnits=2, AddedPower=1)
+        super().__init__(Power=1, MaxUnits=2, AddedPower=[1], UnitsForIncrement=[2])
         self.Keywords = ["CHARACTER", "INFANTRY", "JUMP PACK", "FLY", "GEMINAE SUPERIA"]
         self.ABILITIES = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
@@ -267,12 +313,14 @@ class GeminaeSuperiaSquad(Squad):
                           Abilities.DivineGuardians,
                           Abilities.LifeWards]
         self.Units.append(Units.GeminaeSuperia())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class RepentiaSuperior(Squad):
     def __init__(self, order):
-        super().__init__(Power=2, MaxUnits=1, AddedPower=0)
+        super().__init__(Power=2, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.append(order)
         self.Keywords = ["CHARACTER", "INFANTRY", "REPENTIA SUPERIOR"]
         self.ABILITIES = [Abilities.ActsOfFaith,
@@ -281,7 +329,10 @@ class RepentiaSuperior(Squad):
                           Abilities.ScourgeOfThePenitent,
                           Abilities.DrivenOnwards]
         self.Units.append(Units.RepentiaSuperior())
+        self.SquadType = ''
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''This model can additionally be equipped with 1 bolt pistol.''')
 
     def take_bolt_pistol(self):
         self.Units[0].replace_gun_4(Weapons.BoltPistol())
@@ -291,8 +342,9 @@ class RepentiaSuperior(Squad):
 
 
 class SisterRepentiaSquad(Squad):
-    def __init__(self):
-        super().__init__(Power=2, MaxUnits=5, AddedPower=3)
+    def __init__(self, order):
+        super().__init__(Power=2, MaxUnits=9, AddedPower=[3], UnitsForIncrement=[5])
+        self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "SISTERS REPENTIA"]
         self.ABILITIES = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
@@ -304,12 +356,14 @@ class SisterRepentiaSquad(Squad):
         self.Units.append(Units.SisterRepentia())
         self.Units.append(Units.SisterRepentia())
         self.Units.append(Units.SisterRepentia())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class CelestianSquad(Squad):
     def __init__(self, order):
-        super().__init__(Power=4, MaxUnits=10, AddedPower=2)
+        super().__init__(Power=4, MaxUnits=10, AddedPower=[2], UnitsForIncrement=[6])
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "CELESTIAN SQUAD"]
         self.ABILITIES = [Abilities.ActsOfFaith,
@@ -329,7 +383,21 @@ class CelestianSquad(Squad):
         self.SoldierHasHeavyWeapon = False
         self.HasSimulacrumImperialis = False
         self.HasIncensorCherub = False
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''1 Celestian can be equipped with 1 weapon from the Special Weapons list instead 
+        of 1 boltgun.''')
+        self.WargeatOptions.append('''1 Celestian can be equipped with one of the following instead of 1 boltgun: 
+        1 weapon from the Heavy Weaponslist; 1 weapon from the Special Weapons list.''')
+        self.WargeatOptions.append('''1 Celestian equipped with 1 boltgun can have a Simulacrum Imperialis.''')
+        self.WargeatOptions.append('''The Celestian Superior can additionally be equipped with 1 weapon from the 
+        Melee Weapons list, or can beequipped with 1 weapon from the Melee Weapons list instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Celestian Superior can be equipped with 1 weapon from the Ranged Weapons 
+        list instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Celestian Superior can be equipped with 1 weapon from the Pistols list 
+        instead of 1 bolt pistol.''')
+        self.WargeatOptions.append('''The unit can have an Incensor Cherub.''')
 
     def add_superior(self):
         if not self.HasSuperior:
@@ -365,7 +433,7 @@ class CelestianSquad(Squad):
             self.calculate_points()
 
     def take_simulacrum_imperialis(self, soldier=1):
-        if self.Units[soldier].Gun2.__class__.__name__ == 'Boltgun':
+        if self.Units[soldier].Gun[1].__class__.__name__ == 'Boltgun':
             self.Units[soldier].HasSimulacrumImperialis = True
             self.HasSimulacrumImperialis = True
             self.Units[soldier].POINTS += 5
@@ -399,7 +467,13 @@ class ZephyrimSquad(Squad):
         self.Units.append(Units.Zephyrim())
         self.CanHaveZephyrimPennant = True
         self.HasZephyrimPennant = False
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''The Zephyrim Superior can be equipped with 1 plasma pistol instead of 1 
+        bolt pistol.''')
+        self.WargeatOptions.append('''If the Zephyrim Superior is equipped with 1 bolt pistol, she can have a 
+        Zephyrim pennant.''')
 
     def sergeant_replace_bolt_pistol(self):
         self.Units[0].replace_gun_1(Weapons.PlasmaPistol())
@@ -428,7 +502,9 @@ class Dialogus(Squad):
                           Abilities.SpiritualFortitude,
                           Abilities.StirringRhetoric]
         self.Units.append(Units.Dialogus())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class Hospitaller(Squad):
@@ -440,7 +516,9 @@ class Hospitaller(Squad):
                           Abilities.ShieldOfFaith,
                           Abilities.MedicusMinistorum]
         self.Units.append(Units.Hospitaller())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class Imagifier(Squad):
@@ -453,7 +531,9 @@ class Imagifier(Squad):
                           Abilities.ShieldOfFaith,
                           Abilities.LitanyOfDeeds]
         self.Units.append(Units.Imagifier())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class CrusaderSquad(Squad):
@@ -468,7 +548,9 @@ class CrusaderSquad(Squad):
                           Abilities.SpiritualFortitude]
         self.Units.append(Units.Crusader())
         self.Units.append(Units.Crusader())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class DeathCultAssassinSquad(Squad):
@@ -481,7 +563,9 @@ class DeathCultAssassinSquad(Squad):
                           Abilities.EcclesiarchyBattleConclave]
         self.Units.append(Units.DeathCultAssassin())
         self.Units.append(Units.DeathCultAssassin())
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
 
 class ArcoFlagellantSquad(Squad):
@@ -496,7 +580,9 @@ class ArcoFlagellantSquad(Squad):
         self.Units.append(Units.ArcoFlagellant())
         self.Units.append(Units.ArcoFlagellant())
         self.HasEndurant = False
+        self.SquadType = 'Elites'
         self.calculate_points()
+        self.WargeatOptions = []
 
     def take_endurant(self):
         if not self.HasEndurant:
@@ -523,10 +609,22 @@ class DominionSquad(Squad):
         self.SoldiersWithSpecialWeapon = 0
         self.SoldierWithSimulacrumImperialis = -1
         self.HasIncensorCherub = False
+        self.SquadType = 'FastAttack'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''Up to 4 Dominions can be equipped with 1 weapon from the Special Weapons list 
+        instead of 1 boltgun.''')
+        self.WargeatOptions.append('''1 Dominion equipped with 1 boltgun can have a Simulacrum Imperialis.''')
+        self.WargeatOptions.append('''The Dominion Superior can additionally be equipped with 1 weapon from the Melee 
+        Weapons list, or can beequipped with 1 weapon from the Melee Weapons list instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Dominion Superior can be equipped with 1 weapon from the Ranged Weapons list 
+        instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Dominion Superior can be equipped with 1 weapon from the Pistols list instead 
+        of 1 bolt pistol.''')
+        self.WargeatOptions.append('''The unit can have an Incensor Cherub.''')
 
     def sergeant_take_melee_weapon(self, weapon=None):
-        self.Units[0].Gun5 = weapon
+        self.Units[0].Gun[4] = weapon
         self.calculate_points()
 
     def sergeant_replace_boltgun_with_melee(self, weapon=None):
@@ -548,7 +646,7 @@ class DominionSquad(Squad):
             self.calculate_points()
 
     def take_simulacrum_imperialis(self, soldier):
-        if self.Units[soldier].Gun2.__class__.__name__ == 'Boltgun' and self.SoldierWithSimulacrumImperialis < 0:
+        if self.Units[soldier].Gun[1].__class__.__name__ == 'Boltgun' and self.SoldierWithSimulacrumImperialis < 0:
             self.SoldierWithSimulacrumImperialis = soldier
             self.Points += 5
 
@@ -581,7 +679,15 @@ class SeraphimSquad(Squad):
         self.Units.append(Units.Seraphim())
         self.Units.append(Units.Seraphim())
         self.SoldiersWithoutPistols = 0
+        self.SquadType = 'FastAttack'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''Up to 2 Seraphim can be equipped with one of the following instead of 2 bolt 
+        pistols: 2 hand flamers; 2inferno pistols.''')
+        self.WargeatOptions.append('''The Seraphim Superior can be equipped with one of the following instead of 1 
+        bolt pistol: 1 chainsword; 1power sword.''')
+        self.WargeatOptions.append('''The Seraphim Superior can be equipped with 1 plasma pistol instead of 1 bolt 
+        pistol.''')
 
     def sergeant_replace_pistol_by_sword(self, weapon=None):
         self.Units[0].replace_gun_1(weapon=weapon)
@@ -614,7 +720,12 @@ class ExorcistSquad(Squad):
                           Abilities.Explodes,
                           Abilities.SmokeLaunchers]
         self.Units.append(Units.Exorcist())
+        self.SquadType = 'HeavySupport'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''This model can be equipped with Exorcist conflagration rockets instead of 1 
+        Exorcist missile launcher.''')
+        self.WargeatOptions.append('''This model can additionally be equipped with 1 hunter-killer missile.''')
 
     def replace_missile_launcher(self):
         self.Units[0].replace_gun_1(Weapons.ExorcistConflagrationRockets())
@@ -635,7 +746,15 @@ class MortifierSquad(Squad):
                           Abilities.BlazeOfAgony]
         self.Units.append(Units.Mortifier())
         self.HasAnchorite = False
+        self.SquadType = 'HeavySupport'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''Any model can be equipped with 1 heavy flamer instead of 1 heavy bolter.''')
+        self.WargeatOptions.append('''Any model can be equipped with 2 heavy flamers instead of 2 heavy bolters.''')
+        self.WargeatOptions.append('''Any model can be equipped with 1 penitent buzz-blade instead of 1 penitent 
+        flail.''')
+        self.WargeatOptions.append('''Any model can be equipped with 2 penitent buzz-blades instead of 2 penitent 
+        flails.''')
 
     def take_endurant(self):
         if not self.HasAnchorite:
@@ -687,10 +806,22 @@ class RetributorSquad(Squad):
         self.RetributorsWithHeavy = 0
         self.SoldierWithSimulacrumImperialis = -1
         self.HasIncensorCherub = False
+        self.SquadType = 'HeavySupport'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''Up to 4 Retributors can be equipped with 1 weapon from the Heavy Weapons list 
+        instead of 1 boltgun.''')
+        self.WargeatOptions.append('''1 Retributor equipped with 1 boltgun can have a Simulacrum Imperialis.''')
+        self.WargeatOptions.append('''The Retributor Superior can additionally be equipped with 1 weapon from the 
+        Melee Weapons list, or can beequipped with 1 weapon from the Melee Weapons list instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Retributor Superior can be equipped with 1 weapon from the Ranged Weapons 
+        list instead of 1 boltgun.''')
+        self.WargeatOptions.append('''The Retributor Superior can be equipped with 1 weapon from the Pistols list 
+        instead of 1 bolt pistol.''')
+        self.WargeatOptions.append('''This unit can have an Armorium Cherub, or it can have two Armorium Cherubs.''')
 
     def sergeant_take_melee_weapon(self, weapon=None):
-        self.Units[0].Gun5 = weapon
+        self.Units[0].Gun[4] = weapon
         self.calculate_points()
 
     def sergeant_replace_boltgun_with_melee(self, weapon=None):
@@ -712,7 +843,7 @@ class RetributorSquad(Squad):
             self.calculate_points()
 
     def take_simulacrum_imperialis(self, soldier):
-        if self.Units[soldier].Gun2.__class__.__name__ == 'Boltgun' and self.SoldierWithSimulacrumImperialis < 0:
+        if self.Units[soldier].Gun[1].__class__.__name__ == 'Boltgun' and self.SoldierWithSimulacrumImperialis < 0:
             self.SoldierWithSimulacrumImperialis = soldier
             self.Points += 5
 
@@ -737,7 +868,13 @@ class PenitentEngineSquad(Squad):
         self.ABILITIES = [Abilities.Zealot,
                           Abilities.BerserkKillingMachines]
         self.Units.append(Units.PenitentEngine())
+        self.SquadType = 'HeavySupport'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''Any model can be equipped with 1 penitent buzz-blade instead of 1 penitent 
+        flail.''')
+        self.WargeatOptions.append('''Any model can be equipped with 2 penitent buzz-blades instead of 2 penitent 
+        flails.''')
 
     def choose_penitent_buzz_blade(self, soldier):
         self.Units[soldier].replace_gun_3(Weapons.PenitentBuzzBlade(A=self.Units[soldier].A, S=self.Units[soldier].S))
@@ -764,7 +901,10 @@ class SororitasRhinoSquad(Squad):
                           Abilities.Explodes,
                           Abilities.SelfRepair]
         self.Units.append(Units.SororitasRhino())
+        self.SquadType = 'DedicatedTransport'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''This model can additionally be equipped with 1 hunter-killer missile.''')
 
     def take_hunter_killer_missile(self):
         self.Units[0].replace_gun_2(Weapons.HunterKillerMissile())
@@ -784,7 +924,12 @@ class ImmolatorSquad(Squad):
                           Abilities.SmokeLaunchers,
                           Abilities.Explodes]
         self.Units.append(Units.Immolator())
+        self.SquadType = 'DedicatedTransport'
         self.calculate_points()
+        self.WargeatOptions = []
+        self.WargeatOptions.append('''This model can be equipped with one of the following instead of immolation 
+        flamers: 1 twin heavy bolter; 1twin multi-melta.''')
+        self.WargeatOptions.append('''This model can additionally be equipped with 1 hunter-killer missile.''')
 
     def replace_immolation_flamers(self, weapon=None):
         if weapon.__class__.__name__ == 'TwinHeavyBolter' or weapon.__class__.__name__ == 'TwinMultiMelta':

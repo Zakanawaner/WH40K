@@ -347,7 +347,7 @@ class ImmolationFlamers(_Flamer, DiceAttackGun):
         self.TYPE = "Assault"
 
 
-class InfernoPistol(Melta, Weapon):
+class InfernoPistol(Melta):
     def __init__(self):
         super().__init__()
         self.POINTS = 7

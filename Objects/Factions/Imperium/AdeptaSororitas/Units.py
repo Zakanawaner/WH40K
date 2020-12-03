@@ -15,14 +15,14 @@ class Canoness(Infantry, Human):
         self.W = 5
         self.A = 4
         self.Ld = 9
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.ChainSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.ChainSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class Celestine(Infantry, Human):
@@ -39,8 +39,8 @@ class Celestine(Infantry, Human):
         self.A = 6
         self.Ld = 9
         self.Sv = 2
-        self.Gun1 = Weapons.TheArdentBlade(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(Weapons.TheArdentBlade(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
 
 
 class TriumphOfSaintKatherine(Vehicle, Human):
@@ -58,26 +58,26 @@ class TriumphOfSaintKatherine(Vehicle, Human):
         self.FirstW = 10
         self.SecondW = 5
         self.damage_update(A=True)
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.BoltPistol()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.BoltPistol()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.BoltPistol()
-        self.POINTS += self.Gun4.POINTS
-        self.Gun5 = Weapons.BoltPistol()
-        self.POINTS += self.Gun5.POINTS
-        self.Gun6 = Weapons.BoltPistol()
-        self.POINTS += self.Gun6.POINTS
-        self.Gun7 = Weapons.TheMartyrSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun7.POINTS
-        self.Gun8 = Weapons.RelicWeapons(A=self.A, S=self.S)
-        self.POINTS += self.Gun8.POINTS
-        self.Gun9 = Weapons.FragGrenade()
-        self.POINTS += self.Gun9.POINTS
-        self.Gun10 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun10.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[3].POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[4].POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[5].POINTS
+        self.Gun.append(Weapons.TheMartyrSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[6].POINTS
+        self.Gun.append(Weapons.RelicWeapons(A=self.A, S=self.S))
+        self.POINTS += self.Gun[7].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[8].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[9].POINTS
 
 
 class JunithEruita(Vehicle, Human):
@@ -92,12 +92,12 @@ class JunithEruita(Vehicle, Human):
         self.W = 7
         self.A = 4
         self.Ld = 9
-        self.Gun1 = Weapons.HeavyFlamer()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.HeavyFlamer()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.TheMaceOfCastigation(A=self.A, S=self.S)
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(Weapons.HeavyFlamer())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.HeavyFlamer())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.TheMaceOfCastigation(A=self.A, S=self.S))
+        self.POINTS += self.Gun[2].POINTS
 
 
 class Missionary(Infantry, Human):
@@ -112,16 +112,16 @@ class Missionary(Infantry, Human):
         self.W = 4
         self.A = 3
         self.Sv = 6
-        self.Gun1 = Weapons.AutoGun()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.LasPistol()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.ChainSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.FragGrenade()
-        self.POINTS += self.Gun4.POINTS
-        self.Gun5 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun5.POINTS
+        self.Gun.append(Weapons.AutoGun())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.LasPistol())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.ChainSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[3].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[4].POINTS
 
 
 class BattleSister(Infantry, Human):
@@ -132,14 +132,14 @@ class BattleSister(Infantry, Human):
         self.WS = 4
         self.S = 3
         self.T = 3
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.Boltgun()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.Boltgun())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class SisterSuperior(BattleSister, Sergeant):
@@ -159,10 +159,10 @@ class Preacher(Infantry, Human):
         self.W = 4
         self.A = 3
         self.Sv = 6
-        self.Gun1 = Weapons.LasPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.ChainSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(Weapons.LasPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.ChainSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
 
 
 class GeminaeSuperia(Infantry, Human):
@@ -176,14 +176,14 @@ class GeminaeSuperia(Infantry, Human):
         self.W = 2
         self.A = 3
         self.Ld = 9
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.PowerSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.PowerSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class RepentiaSuperior(Infantry, Human):
@@ -196,12 +196,12 @@ class RepentiaSuperior(Infantry, Human):
         self.W = 4
         self.A = 4
         self.Ld = 8
-        self.Gun1 = Weapons.NeuralWhips(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.FragGrenade()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(Weapons.NeuralWhips(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[2].POINTS
 
 
 class SisterRepentia(Infantry, Human):
@@ -214,8 +214,8 @@ class SisterRepentia(Infantry, Human):
         self.A = 2
         self.Ld = 8
         self.Sv = 7
-        self.Gun1 = Weapons.PenitentEviscerator(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(Weapons.PenitentEviscerator(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
 
 
 class Celestian(Infantry, Human):
@@ -227,14 +227,14 @@ class Celestian(Infantry, Human):
         self.T = 3
         self.A = 2
         self.Ld = 8
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.Boltgun()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.Boltgun())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class CelestianSuperior(Celestian, Sergeant):
@@ -252,14 +252,14 @@ class Zephyrim(Infantry, Human):
         self.T = 3
         self.A = 2
         self.Ld = 8
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.PowerSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.PowerSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class ZephyrimSuperior(Zephyrim, Sergeant):
@@ -278,10 +278,10 @@ class Dialogus(Infantry, Human):
         self.W = 4
         self.A = 3
         self.Ld = 8
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.Dialogusstaff(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.Dialogusstaff(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
 
 
 class Hospitaller(Infantry, Human):
@@ -295,10 +295,10 @@ class Hospitaller(Infantry, Human):
         self.W = 4
         self.A = 3
         self.Ld = 8
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.ChirurgeonStools(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.ChirurgeonStools(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
 
 
 class Imagifier(Infantry, Human):
@@ -311,12 +311,12 @@ class Imagifier(Infantry, Human):
         self.W = 4
         self.A = 3
         self.Ld = 8
-        self.Gun1 = Weapons.Boltgun()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.FragGrenade()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(Weapons.Boltgun())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[2].POINTS
 
 
 class Crusader(Infantry, Human):
@@ -330,8 +330,8 @@ class Crusader(Infantry, Human):
         self.A = 2
         self.Sv = 4
         self.InvSv = 3
-        self.Gun1 = Weapons.PowerSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(Weapons.PowerSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
 
 
 class DeathCultAssassin(Infantry, Human):
@@ -344,8 +344,8 @@ class DeathCultAssassin(Infantry, Human):
         self.T = 3
         self.A = 4
         self.Sv = 5
-        self.Gun1 = Weapons.DeathCultPowerBlades(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(Weapons.DeathCultPowerBlades(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
 
 
 class ArcoFlagellant(Infantry, Human):
@@ -360,8 +360,8 @@ class ArcoFlagellant(Infantry, Human):
         self.W = 2
         self.A = 2
         self.Sv = 7
-        self.Gun1 = Weapons.ArcoFlails(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(Weapons.ArcoFlails(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
 
 
 class Endurant(ArcoFlagellant):
@@ -378,14 +378,14 @@ class Dominion(Infantry, Human):
         self.WS = 4
         self.S = 3
         self.T = 3
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.Boltgun()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.Boltgun())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class DominionSuperior(Dominion, Sergeant):
@@ -401,14 +401,14 @@ class Seraphim(Infantry, Human):
         self.M = 12
         self.S = 3
         self.T = 3
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.BoltPistol()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class SeraphimSuperior(Seraphim, Sergeant):
@@ -438,10 +438,10 @@ class Exorcist(Vehicle, Human):
         self.FirstW = 7
         self.SecondW = 4
         self.damage_update(M=True, A=True, BS=True)
-        self.Gun1 = Weapons.ExorcistMissileLauncher()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.HeavyBolter()
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(Weapons.ExorcistMissileLauncher())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.HeavyBolter())
+        self.POINTS += self.Gun[1].POINTS
 
 
 class Mortifier(Vehicle, Human):
@@ -454,14 +454,14 @@ class Mortifier(Vehicle, Human):
         self.T = 5
         self.W = 5
         self.Sv = 4
-        self.Gun1 = Weapons.HeavyBolter()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.HeavyBolter()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.PenitentFlail(A=self.A, S=self.S)
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.PenitentFlail(A=self.A, S=self.S)
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.HeavyBolter())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.HeavyBolter())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.PenitentFlail(A=self.A, S=self.S))
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.PenitentFlail(A=self.A, S=self.S))
+        self.POINTS += self.Gun[3].POINTS
 
 
 class Anchorite(Mortifier):
@@ -480,14 +480,14 @@ class Retributor(Infantry, Human):
         self.WS = 4
         self.S = 3
         self.T = 3
-        self.Gun1 = Weapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.Boltgun()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.KrakGrenades()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.Boltgun())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.KrakGrenades())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class RetriibutorSuperior(Retributor, Sergeant):
@@ -507,14 +507,14 @@ class PenitentEngine(Vehicle, Human):
         self.T = 5
         self.W = 5
         self.Sv = 4
-        self.Gun1 = Weapons.HeavyFlamer()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.HeavyFlamer()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = Weapons.PenitentFlail()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = Weapons.PenitentFlail()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(Weapons.HeavyFlamer())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.HeavyFlamer())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(Weapons.PenitentFlail())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(Weapons.PenitentFlail())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class SororitasRhino(Vehicle, Human):
@@ -536,8 +536,8 @@ class SororitasRhino(Vehicle, Human):
         self.FirstW = 6
         self.SecondW = 3
         self.damage_update(M=True, A=True, BS=True)
-        self.Gun1 = Weapons.StormBolter()
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(Weapons.StormBolter())
+        self.POINTS += self.Gun[0].POINTS
 
 
 class Immolator(Vehicle, Human):
@@ -559,7 +559,7 @@ class Immolator(Vehicle, Human):
         self.FirstW = 6
         self.SecondW = 3
         self.damage_update(M=True, A=True, BS=True)
-        self.Gun1 = Weapons.ImmolationFlamers()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = Weapons.HeavyBolter()
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(Weapons.ImmolationFlamers())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(Weapons.HeavyBolter())
+        self.POINTS += self.Gun[1].POINTS

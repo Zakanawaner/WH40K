@@ -1,11 +1,11 @@
 from . import Units, Weapons, Abilities
+from Objects.Generic.Models import Unit
 
 
-class Squad:
+class Squad(Unit):
     def __init__(self, Power, MaxUnits, AddedPower):
-        self.Points = 0
+        super().__init__()
         self.Power = Power
-        self.Units = []
         self.PowerAdded = AddedPower
         self.MaxUnits = MaxUnits
         self.FactionKeywords = ['IMPERIUM', 'ADEPTUS ASTARTES', 'DARK ANGELS']
@@ -114,16 +114,16 @@ class IntercessorSquad(Squad):
     def take_auxiliary_grenade_launcher(self, soldier=1):
         if len(self.Units) < 10:
             if self.SoldiersWithAuxiliaryGrenadeLauncher < 1:
-                self.Units[soldier].Gun3.RANGE = 30
-                self.Units[soldier].Gun34RANGE = 30
+                self.Units[soldier].Gun[2].RANGE = 30
+                self.Units[soldier].Gun[3].RANGE = 30
                 self.SoldiersWithAuxiliaryGrenadeLauncher += 1
                 self.calculate_points()
             else:
                 print('No')
         else:
             if self.SoldiersWithAuxiliaryGrenadeLauncher < 2:
-                self.Units[soldier].Gun3.RANGE = 30
-                self.Units[soldier].Gun4.RANGE = 30
+                self.Units[soldier].Gun[2].RANGE = 30
+                self.Units[soldier].Gun[3].RANGE = 30
                 self.SoldiersWithAuxiliaryGrenadeLauncher += 1
                 self.calculate_points()
             else:

@@ -17,32 +17,32 @@ def main():
 
         if not os.path.exists('./Source/Dataoutput/{}'.format(army)):
             os.makedirs('./Source/Dataoutput/{}'.format(army))
-        if not os.path.exists('./Source/3DObjects/{}'.format(army)):
-            os.makedirs('./Source/3DObjects/{}'.format(army))
-        if not os.path.exists('./Source/3DObjects/{}/Mesh'.format(army)):
-            os.makedirs('./Source/3DObjects/{}/Mesh'.format(army))
-        if not os.path.exists('./Source/3DObjects/{}/Material'.format(army)):
-            os.makedirs('./Source/3DObjects/{}/Material'.format(army))
+        if not os.path.exists('./Source/MeshObjects/{}'.format(army)):
+            os.makedirs('./Source/MeshObjects/{}'.format(army))
+        if not os.path.exists('./Source/MeshObjects/{}/Mesh'.format(army)):
+            os.makedirs('./Source/MeshObjects/{}/Mesh'.format(army))
+        if not os.path.exists('./Source/MeshObjects/{}/Material'.format(army)):
+            os.makedirs('./Source/MeshObjects/{}/Material'.format(army))
 
         OutMeshPath = './Source/Dataoutput/{}/mesh.txt'.format(army)
-        OutObjMeshPath = './Source/3DObjects/{}/Mesh/'.format(army)
-        OutObjMaterialPath = './Source/3DObjects/{}/Material/'.format(army)
+        OutObjMeshPath = './Source/MeshObjects/{}/Mesh/'.format(army)
+        OutObjMaterialPath = './Source/MeshObjects/{}/Material/'.format(army)
     else:
         army = 'AdeptaSororitas'
         InJsonPath = './Source/TTSJSON/{}/'.format(army)
 
         if not os.path.exists('./Source/Dataoutput/{}'.format(army)):
             os.makedirs('./Source/Dataoutput/{}'.format(army))
-        if not os.path.exists('./Source/3DObjects/{}'.format(army)):
-            os.makedirs('./Source/3DObjects/{}'.format(army))
-        if not os.path.exists('./Source/3DObjects/{}/Mesh'.format(army)):
-            os.makedirs('./Source/3DObjects/{}/Mesh'.format(army))
-        if not os.path.exists('./Source/3DObjects/{}/Material'.format(army)):
-            os.makedirs('./Source/3DObjects/{}/Material'.format(army))
+        if not os.path.exists('./Source/MeshObjects/{}'.format(army)):
+            os.makedirs('./Source/MeshObjects/{}'.format(army))
+        if not os.path.exists('./Source/MeshObjects/{}/Mesh'.format(army)):
+            os.makedirs('./Source/MeshObjects/{}/Mesh'.format(army))
+        if not os.path.exists('./Source/MeshObjects/{}/Material'.format(army)):
+            os.makedirs('./Source/MeshObjects/{}/Material'.format(army))
 
         OutMeshPath = './Source/Dataoutput/{}/mesh.txt'.format(army)
-        OutObjMeshPath = './Source/3DObjects/{}/Mesh/'.format(army)
-        OutObjMaterialPath = './Source/3DObjects/{}/Material/'.format(army)
+        OutObjMeshPath = './Source/MeshObjects/{}/Mesh/'.format(army)
+        OutObjMaterialPath = './Source/MeshObjects/{}/Material/'.format(army)
     files = [json.load(open(InJsonPath + f))['ObjectStates'] for f in os.listdir(InJsonPath)]
     models = []
     for file in files:
@@ -55,6 +55,7 @@ def main():
                 name = re.findall('([A-Z][a-z]*)', model['Nickname'])
                 nickname = ''.join(name)
                 f.write('{} = '.format(nickname) + '{\n')
+                f.write('\t"name": "{}",'.format(nickname) + '\n')
                 f.write('\t"scaleX": {},\n'.format(model['Transform']['scaleX']))
                 f.write('\t"scaleY": {},\n'.format(model['Transform']['scaleY']))
                 f.write('\t"MeshURL": "{}",\n'.format(str(model['CustomMesh']['MeshURL'])))

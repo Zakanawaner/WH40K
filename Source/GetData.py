@@ -20,7 +20,7 @@ if len(sys.argv) > 1:
     OutUnitsPath = './Source/Dataoutput/{}/units.txt'.format(Army)
     OutSquadsPath = './Source/Dataoutput/{}/squads.txt'.format(Army)
 else:
-    Army = 'DarkAngels'
+    Army = 'AdeptaSororitas'
     InWeaponsPath = './Datainput/{}/weapons.txt'.format(Army)
     InWeaponListPath = './Datainput/{}/weaponlist.txt'.format(Army)
     InPointsPath = './Datainput/{}/points.txt'.format(Army)
@@ -271,25 +271,26 @@ with open(OutUnitsPath, 'w') as f:
         f.write('\t\tself.A = {}\n'.format(auxUnit['a'])) if auxUnit['a'] != '1' else None
         f.write('\t\tself.Ld = {}\n'.format(auxUnit['ld'])) if auxUnit['ld'] != '7' else None
         f.write('\t\tself.Sv = {}\n'.format(auxUnit['sv'])) if auxUnit['sv'] != '3' else None
-        f.write('\t\tself.Gun1 = Weapons.{}()\n'.format(
+        f.write('\t\tself.Gun = []\n')
+        f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun1'].replace(' ', ''))) if 'gun1' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun1.POINTS\n'.format(
+        f.write('\t\tself.POINTS += self.Gun[0].POINTS\n'.format(
             auxUnit['gun1'].replace(' ', ''))) if 'gun1' in auxUnit.keys() else None
-        f.write('\t\tself.Gun2 = Weapons.{}()\n'.format(
+        f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun2'].replace(' ', ''))) if 'gun2' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun2.POINTS\n'.format(
+        f.write('\t\tself.POINTS += self.Gun[1].POINTS\n'.format(
             auxUnit['gun2'].replace(' ', ''))) if 'gun2' in auxUnit.keys() else None
-        f.write('\t\tself.Gun3 = Weapons.{}()\n'.format(
+        f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun3'].replace(' ', ''))) if 'gun3' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun3.POINTS\n'.format(
+        f.write('\t\tself.POINTS += self.Gun[2].POINTS\n'.format(
             auxUnit['gun3'].replace(' ', ''))) if 'gun3' in auxUnit.keys() else None
-        f.write('\t\tself.Gun4 = Weapons.{}()\n'.format(
+        f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun4'].replace(' ', ''))) if 'gun4' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun4.POINTS\n'.format(
+        f.write('\t\tself.POINTS += self.Gun[3].POINTS\n'.format(
             auxUnit['gun4'].replace(' ', ''))) if 'gun4' in auxUnit.keys() else None
-        f.write('\t\tself.Gun5 = Weapons.{}()\n'.format(
+        f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun5'].replace(' ', ''))) if 'gun5' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun5.POINTS\n'.format(
+        f.write('\t\tself.POINTS += self.Gun[4].POINTS\n'.format(
             auxUnit['gun5'].replace(' ', ''))) if 'gun5' in auxUnit.keys() else None
         f.write('\n')
         f.write('\n')
@@ -340,7 +341,11 @@ with open(OutSquadsPath, 'w') as f:
         f.write('\t\tself.Units.append(Units.{}())\n'.format(squad['name']))
         f.write('\t\tself.Units.append(Units.{}())\n'.format(squad['name']))
         f.write('\t\t# TODO Equipment singularities\n')
+        f.write('\t\tself.SquadType = ''  # TODO squad type\n')
         f.write('\t\tself.calculate_points()\n')
+        f.write('\t\tself.WargeatOptions = []\n')
+        for i, wargear in enumerate(squad['wargear']):
+            f.write("\t\tself.WargeatOptions.append('''{}''')\n".format(wargear))
         f.write('\n')
         for wargear in squad['wargear']:
             f.write('\t\t# {}\n'.format(wargear))

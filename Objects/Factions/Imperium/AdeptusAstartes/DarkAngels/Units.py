@@ -8,14 +8,14 @@ class TacticalMarine(Infantry, Human):
         super().__init__()
         Human.__init__(self, Mesh.TacticalMarineBolter)
         self.POINTS = 13
-        self.Gun1 = DarkAngelWeapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.Boltgun()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = DarkAngelWeapons.KrakGrenade()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(DarkAngelWeapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.Boltgun())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(DarkAngelWeapons.KrakGrenade())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class TacticalMarineSergeant(TacticalMarine, Sergeant):
@@ -23,7 +23,7 @@ class TacticalMarineSergeant(TacticalMarine, Sergeant):
         super().__init__()
 
     def take_melta_bombs(self):
-        self.Gun5 = DarkAngelWeapons.MeltaBomb()
+        self.Gun.append(DarkAngelWeapons.MeltaBomb())
 
 
 class Intercessor(Infantry, Human):
@@ -33,14 +33,14 @@ class Intercessor(Infantry, Human):
         self.POINTS = 18
         self.W += 1
         self.A += 1
-        self.Gun1 = DarkAngelWeapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.BoltRifle()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = DarkAngelWeapons.KrakGrenade()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(DarkAngelWeapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.BoltRifle())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(DarkAngelWeapons.KrakGrenade())
+        self.POINTS += self.Gun[3].POINTS
 
 
 class IntercessorSergeant(Intercessor, Sergeant):
@@ -51,8 +51,8 @@ class IntercessorSergeant(Intercessor, Sergeant):
         pass
 
     def take_power_sword(self):
-        self.Gun5 = DarkAngelWeapons.PowerSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun5.POINTS
+        self.Gun.append(DarkAngelWeapons.PowerSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[4].POINTS
 
 
 class Scout(Infantry, Human):
@@ -61,14 +61,14 @@ class Scout(Infantry, Human):
         Human.__init__(self, Mesh.ScoutBolter)
         self.POINTS = 11
         self.Sv += 1
-        self.Gun1 = DarkAngelWeapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.Boltgun()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = DarkAngelWeapons.KrakGrenade()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(DarkAngelWeapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.Boltgun())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(DarkAngelWeapons.KrakGrenade())
+        self.POINTS += self.Gun[3].POINTS
         self.camo_cloak = False
 
     def take_camo_cloak(self):
@@ -91,31 +91,31 @@ class Veteran(Infantry, Human):
         self.POINTS = 16
         self.A += 1
         self.Ld += 1
-        self.Gun1 = DarkAngelWeapons.BoltPistol()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.ChainSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.FragGrenade()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = DarkAngelWeapons.KrakGrenade()
-        self.POINTS += self.Gun4.POINTS
+        self.Gun.append(DarkAngelWeapons.BoltPistol())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.ChainSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.FragGrenade())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(DarkAngelWeapons.KrakGrenade())
+        self.POINTS += self.Gun[3].POINTS
 
     # Storm Shield or Melee weapons or Pistols List
     def replace_gun_1(self, weapon=None):
-        self.POINTS -= self.Gun1.POINTS
-        self.Gun1 = weapon
+        self.POINTS -= self.Gun[0].POINTS
+        self.Gun[0] = weapon
         if weapon is not None:
-            self.POINTS += self.Gun1.POINTS
+            self.POINTS += self.Gun[0].POINTS
         else:
             self.InvSv = 3
             self.POINTS += 5
 
     # Storm Shield (weapon=None) or BoltGun or Melee weapons or Pistols list or Combi weapons or Special Weapons
     def replace_gun_2(self, weapon=None):
-        self.POINTS -= self.Gun2.POINTS
-        self.Gun2 = weapon
+        self.POINTS -= self.Gun[1].POINTS
+        self.Gun[1] = weapon
         if weapon is not None:
-            self.POINTS += self.Gun2.POINTS
+            self.POINTS += self.Gun[1].POINTS
         else:
             self.InvSv = 3
             self.POINTS += 5
@@ -140,10 +140,10 @@ class DeathWingTerminator(Infantry, Human):
         self.A += 1
         self.Ld += 1
         self.Sv -= 1
-        self.Gun1 = DarkAngelWeapons.PowerFist(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.StormBolter()
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(DarkAngelWeapons.PowerFist(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.StormBolter())
+        self.POINTS += self.Gun[1].POINTS
 
 
 class DeathWingTerminatorSergeant(DeathWingTerminator, Sergeant):
@@ -164,8 +164,8 @@ class DeathWingKnight(Infantry, Human):
         self.A += 1
         self.Ld += 1
         self.Sv -= 1
-        self.Gun1 = DarkAngelWeapons.MaceOfAbsolution(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(DarkAngelWeapons.MaceOfAbsolution(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
         self.InvSv = 3
         self.POINTS += 5
 
@@ -174,9 +174,9 @@ class DeathWingKnightMaster(DeathWingKnight, Sergeant):
     def __init__(self):
         super().__init__()
         Human.__init__(self, Mesh.DeathingKnightFlail)
-        self.POINTS += self.Gun1.POINTS
-        self.Gun1 = DarkAngelWeapons.FlailOfTheUnforgiven(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.FlailOfTheUnforgiven(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS
 
     def choose_sergeant_weapon(self, sergeant_weapon_1=None, sergeant_weapon_2=None):
         pass
@@ -192,26 +192,26 @@ class DeathWingCataphractiiTerminator(Infantry, Human):
         self.A += 1
         self.Ld += 1
         self.Sv -= 1
-        self.Gun1 = DarkAngelWeapons.CombiBolter()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.PowerFist(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(DarkAngelWeapons.CombiBolter())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.PowerFist(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
 
 
 class DeathWingCataphractiiTerminatorSergeant(DeathWingCataphractiiTerminator, Sergeant):
     def __init__(self):
         DeathWingCataphractiiTerminator.__init__(self)
         Sergeant.__init__(self)
-        self.POINTS += self.Gun2.POINTS
-        self.Gun2 = DarkAngelWeapons.PowerSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.PowerSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
 
     def choose_sergeant_weapon(self, sergeant_weapon_1=None, sergeant_weapon_2=None):
         pass
 
     def take_grenade_harness(self):
-        self.Gun3 = DarkAngelWeapons.GrenadeHarness()
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(DarkAngelWeapons.GrenadeHarness())
+        self.POINTS += self.Gun[2].POINTS
 
 
 class DeathWingTartarosTerminator(Infantry, Human):
@@ -223,23 +223,23 @@ class DeathWingTartarosTerminator(Infantry, Human):
         self.A += 1
         self.Ld += 1
         self.Sv -= 1
-        self.Gun1 = DarkAngelWeapons.CombiBolter()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.PowerFist(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
+        self.Gun.append(DarkAngelWeapons.CombiBolter())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.PowerFist(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
 
     def take_grenade_harness(self):
-        self.Gun3 = DarkAngelWeapons.GrenadeHarness()
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(DarkAngelWeapons.GrenadeHarness())
+        self.POINTS += self.Gun[2].POINTS
 
 
 class DeathWingTartarosTerminatorSergeant(DeathWingTartarosTerminator, Sergeant):
     def __init__(self):
         DeathWingTartarosTerminator.__init__(self)
         Sergeant.__init__(self)
-        self.POINTS += self.Gun2.POINTS
-        self.Gun2 = DarkAngelWeapons.PowerSword(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.PowerSword(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
 
     def choose_sergeant_weapon(self, sergeant_weapon_1=None, sergeant_weapon_2=None):
         pass
@@ -250,12 +250,12 @@ class Dreadnought(Vehicle, Human):
         super().__init__()
         Human.__init__(self, Mesh.Dreadnought_CombatWeapon_AssaultCannon)
         self.POINTS = 70
-        self.Gun1 = DarkAngelWeapons.AssaultCannon()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.StormBolter()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.DreadnoughtCombatWeapon(A=self.A, S=self.S)
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(DarkAngelWeapons.AssaultCannon())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.StormBolter())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.DreadnoughtCombatWeapon(A=self.A, S=self.S))
+        self.POINTS += self.Gun[2].POINTS
 
 
 class VenerableDreadnought(Dreadnought):
@@ -287,12 +287,12 @@ class ContemptorDreadnought(Vehicle, Human):
         self.FirstW = 6
         self.SecondW = 3
         self.damage_update(M=True, WS=True, BS=True)
-        self.Gun1 = DarkAngelWeapons.MultiMelta()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.CombiBolter()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.DreadnoughtCombatWeapon(A=self.A, S=self.S)
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(DarkAngelWeapons.MultiMelta())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.CombiBolter())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.DreadnoughtCombatWeapon(A=self.A, S=self.S))
+        self.POINTS += self.Gun[2].POINTS
 
 
 class RedemptorDreadnought(Vehicle, Human):
@@ -315,16 +315,16 @@ class RedemptorDreadnought(Vehicle, Human):
         self.FirstW = 7
         self.SecondW = 4
         self.damage_update(M=True, WS=True, BS=True)
-        self.Gun1 = DarkAngelWeapons.HeavyOnslaughtGatlingCannon()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.HeavyFlamer()
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.FragStormGrenadeLauncher()
-        self.POINTS += self.Gun3.POINTS
-        self.Gun4 = DarkAngelWeapons.FragStormGrenadeLauncher()
-        self.POINTS += self.Gun4.POINTS
-        self.Gun5 = DarkAngelWeapons.RedemptorFist(A=self.A, S=self.S)
-        self.POINTS += self.Gun5.POINTS
+        self.Gun.append(DarkAngelWeapons.HeavyOnslaughtGatlingCannon())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.HeavyFlamer())
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.FragStormGrenadeLauncher())
+        self.POINTS += self.Gun[2].POINTS
+        self.Gun.append(DarkAngelWeapons.FragStormGrenadeLauncher())
+        self.POINTS += self.Gun[3].POINTS
+        self.Gun.append(DarkAngelWeapons.RedemptorFist(A=self.A, S=self.S))
+        self.POINTS += self.Gun[4].POINTS
 
 
 class Aggressor(Infantry, Human):
@@ -336,12 +336,12 @@ class Aggressor(Infantry, Human):
         self.T = 5
         self.W = 2
         self.A = 2
-        self.Gun1 = DarkAngelWeapons.AutoboltStormGauntlets()
-        self.POINTS += self.Gun1.POINTS
-        self.Gun2 = DarkAngelWeapons.AutoboltStormGauntletsMelee(A=self.A, S=self.S)
-        self.POINTS += self.Gun2.POINTS
-        self.Gun3 = DarkAngelWeapons.FragStormGrenadeLauncher()
-        self.POINTS += self.Gun3.POINTS
+        self.Gun.append(DarkAngelWeapons.AutoboltStormGauntlets())
+        self.POINTS += self.Gun[0].POINTS
+        self.Gun.append(DarkAngelWeapons.AutoboltStormGauntletsMelee(A=self.A, S=self.S))
+        self.POINTS += self.Gun[1].POINTS
+        self.Gun.append(DarkAngelWeapons.FragStormGrenadeLauncher())
+        self.POINTS += self.Gun[2].POINTS
 
 
 class AggressorSergeant(Aggressor, Sergeant):
@@ -365,5 +365,5 @@ class Servitor(Infantry, Human):
         self.T = 3
         self.Ld = 6
         self.Sv = 4
-        self.Gun1 = DarkAngelWeapons.ServoArm(A=self.A, S=self.S)
-        self.POINTS += self.Gun1.POINTS
+        self.Gun.append(DarkAngelWeapons.ServoArm(A=self.A, S=self.S))
+        self.POINTS += self.Gun[0].POINTS

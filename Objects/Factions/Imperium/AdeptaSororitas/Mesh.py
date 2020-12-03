@@ -72,6 +72,7 @@ MinistorumPriest1 = {
 
 
 BattleSisterHeavyBolterBoltPistol = {
+    "name": "BattleSisterHeavyBolterBoltPistol",
     "scaleX": 1.0,
     "scaleY": 1.0,
     "MeshURL": "http://cloud-3.steamusercontent.com/ugc/787496483810650107/12D9E5E9ABD7939D0526643CA67D2524F0A4B28E/",
@@ -184,6 +185,7 @@ SisterSuperiorCombiMeltaChainsword = {
 
 
 BattleSisterBoltgunBoltPistol = {
+    "name": "BattleSisterBoltgunBoltPistol",
     "scaleX": 1.0,
     "scaleY": 1.0,
     "MeshURL": "http://cloud-3.steamusercontent.com/ugc/787496483810365214/4FECDAC7877B87EF8CAB6DAE63823F7DB7B7B018/",
