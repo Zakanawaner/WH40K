@@ -13,7 +13,7 @@ from shapely.geometry import Point
 from Objects.Networks.MovementNetworks import MoveHyperParameters, MoveNetwork, CoherencyNetwork
 from Objects.Networks.TestMovementCNN import MoveHyperParametersCNN, MoveNetworkCNN
 from Objects.Generic.Models import Model
-from Objects.Networks.Evolutionary import EACoherency
+from Objects.Networks.Evolutionary import EAMove
 from Messages import Messages
 
 
@@ -21,8 +21,13 @@ from Messages import Messages
 
 class Brain:
     def __init__(self):
-        self.Coherency = EACoherency()
-        self.DecideToMove = None
+        # Assign Movement Cerebral Regions
+        self.Move = EAMove()
+        # Assign Shooting Cerebral Regions
+        # Assign Psychic Cerebral Regions
+        # Assign Charge Cerebral Regions
+        # Assign Combat Cerebral Regions
+        # ...
 
 
 class Body:
@@ -58,32 +63,43 @@ class Human(Brain, Body, Model):
         self.Position.y += y
         self.Position.z += z
         self.Body = Point(self.Position.x, self.Position.y).buffer(self.BodyInfo['radius'])
+        self.move_range_clean()
 
     def move_range_clean(self):
         self.MoveRange = Point(self.Position.x, self.Position.y).buffer(self.M)
-        return self.MoveRange
 
     def move_range_on_board(self, board):
         pass
+        # return self.MoveRange
 
     # Action move
-    def move(self, objectsBoard, model=None, coherencyRegion=None, newPosition=None, advance=False,
+    def move(self, objectsBoard=None, model=None, coherencyRegion=None, newPosition=None, advance=False,
              isSergeant=False, target=None, overlapRange=None):
         if newPosition is not None:
             # M += self.throw_die() if advance else 0
             self.set_position(newPosition[0], newPosition[1])
-        elif model is not None and coherencyRegion is not None and objectsBoard is not None and overlapRange is not None:
-            M = 0
-            direction = 0
-            if isSergeant:
-                if target is not None:
-                    M, direction = self.Coherency.decide(model, coherencyRegion, objectsBoard, overlapRange)
+        elif objectsBoard is not None:
+            if model is not None:
+                M = 0
+                direction = 0
+                if isSergeant:
+                    if target is not None:
+                        M, direction = self.Move.decide(model=model,
+                                                        target=target,
+                                                        objects=objectsBoard,
+                                                        isSergeant=True)
+                    else:
+                        print(Messages.TargetNotDefined)
+                elif coherencyRegion is not None and overlapRange is not None and target is not None:
+                    M, direction = self.Move.decide(model=model,
+                                                    target=target,
+                                                    objects=objectsBoard,
+                                                    region=coherencyRegion,
+                                                    overlapRange=overlapRange,
+                                                    isSergeant=False)
                 else:
-                    print(Messages.TargetNotDefined)
-            else:
-                M, direction = self.Coherency.decide(model, coherencyRegion, objectsBoard, overlapRange)
-            direction *= math.pi / 180
-            self.set_position(M * math.cos(direction), M * math.sin(direction))
-            # M += self.throw_die() if advance else 0
+                    print(Messages.IllegalArguments)
+                direction *= math.pi / 180
+                self.set_position(M * math.cos(direction), M * math.sin(direction))
         else:
             print(Messages.IllegalArguments)

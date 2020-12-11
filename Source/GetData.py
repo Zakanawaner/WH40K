@@ -117,7 +117,7 @@ with open(OutWeaponsPath, 'w') as f:
                 f.write('class {}(Melee):\n'.format(gun['name']))
             f.write('\tdef __init__(self, A=1, S=4):\n')
             f.write('\t\tsuper().__init__(A=A, S=S)\n')
-            f.write('\t\tself.POINTS = {}\n'.format(gun['points'])) if int(gun['points']) > 0 else None
+            f.write('\t\tself.Points = {}\n'.format(gun['points'])) if int(gun['points']) > 0 else None
             f.write('\t\tself.S = {}\n'.format(gun['s']) if '+' not in gun['s'] and 'x' not in gun['s'] and
                                                             '-' not in gun['s'] and gun[
                                                                 's'] != '4' else '\t\tself.S {}= {}\n'.format(
@@ -141,8 +141,8 @@ with open(OutWeaponsPath, 'w') as f:
                     f.write('class {}(Weapon):\n'.format(gun['name']))
             f.write('\tdef __init__(self):\n')
             f.write('\t\tsuper().__init__()\n')
-            f.write('\t\tself.POINTS = {}\n'.format(gun['points'])) if int(gun['points']) > 0 else None
-            f.write('\t\tself.RANGE = {}\n'.format(gun['range'])) if gun['range'] != '12' else None
+            f.write('\t\tself.Points = {}\n'.format(gun['points'])) if int(gun['points']) > 0 else None
+            f.write('\t\tself.Range = {}\n'.format(gun['range'])) if gun['range'] != '12' else None
             f.write('\t\tself.A = {}\n'.format(gun['a'])) if gun['a'] != '1' else None
             f.write('\t\tself.S = {}\n'.format(gun['s'])) if gun['s'] != '4' else None
             f.write('\t\tself.AP = {}\n'.format(gun['ap'])) if gun['ap'] != '0' else None
@@ -261,7 +261,7 @@ with open(OutUnitsPath, 'w') as f:
         f.write('\tdef __init__(self):\n')
         f.write('\t\tsuper().__init__()\n')
         f.write('\t\tHuman.__init__(self, Mesh.{})\n'.format(auxUnit['name'].replace(' ', '')))
-        f.write('\t\tself.POINTS = {}\n'.format(auxUnit['points']))
+        f.write('\t\tself.Points = {}\n'.format(auxUnit['points']))
         f.write('\t\tself.M = {}\n'.format(auxUnit['m'])) if auxUnit['m'] != '6' else None
         f.write('\t\tself.WS = {}\n'.format(auxUnit['ws'])) if auxUnit['ws'] != '3' else None
         f.write('\t\tself.BS = {}\n'.format(auxUnit['bs'])) if auxUnit['bs'] != '3' else None
@@ -274,23 +274,23 @@ with open(OutUnitsPath, 'w') as f:
         f.write('\t\tself.Gun = []\n')
         f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun1'].replace(' ', ''))) if 'gun1' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun[0].POINTS\n'.format(
+        f.write('\t\tself.Points += self.Gun[0].Points\n'.format(
             auxUnit['gun1'].replace(' ', ''))) if 'gun1' in auxUnit.keys() else None
         f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun2'].replace(' ', ''))) if 'gun2' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun[1].POINTS\n'.format(
+        f.write('\t\tself.Points += self.Gun[1].Points\n'.format(
             auxUnit['gun2'].replace(' ', ''))) if 'gun2' in auxUnit.keys() else None
         f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun3'].replace(' ', ''))) if 'gun3' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun[2].POINTS\n'.format(
+        f.write('\t\tself.Points += self.Gun[2].Points\n'.format(
             auxUnit['gun3'].replace(' ', ''))) if 'gun3' in auxUnit.keys() else None
         f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun4'].replace(' ', ''))) if 'gun4' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun[3].POINTS\n'.format(
+        f.write('\t\tself.Points += self.Gun[3].Points\n'.format(
             auxUnit['gun4'].replace(' ', ''))) if 'gun4' in auxUnit.keys() else None
         f.write('\t\tself.Gun.append(Weapons.{}())\n'.format(
             auxUnit['gun5'].replace(' ', ''))) if 'gun5' in auxUnit.keys() else None
-        f.write('\t\tself.POINTS += self.Gun[4].POINTS\n'.format(
+        f.write('\t\tself.Points += self.Gun[4].Points\n'.format(
             auxUnit['gun5'].replace(' ', ''))) if 'gun5' in auxUnit.keys() else None
         f.write('\n')
         f.write('\n')

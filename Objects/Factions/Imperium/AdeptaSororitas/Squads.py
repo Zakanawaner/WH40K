@@ -5,33 +5,8 @@ from Messages import Messages
 
 class Squad(Unit):
     def __init__(self, Power, MaxUnits, AddedPower, UnitsForIncrement=None):  # TODO terminar la puntuación de poder
-        super().__init__()
-        self.Power = Power
-        self.PowerStage = -1
-        self.UnitsForIncrement = UnitsForIncrement
-        self.PowerAdded = AddedPower
-        self.MaxUnits = MaxUnits
+        super().__init__(Power, MaxUnits, AddedPower, UnitsForIncrement)
         self.FactionKeywords = ['IMPERIUM', 'ADEPTUS MINISTORUM', 'ADEPTA SORORITAS']
-
-    def calculate_points(self):
-        self.Points = 0
-        for unit in self.Units:
-            self.Points += unit.POINTS
-
-    def add_soldier(self, unit):
-        if len(self.Units) < self.MaxUnits:
-            unit.SquadPosition = self.SquadPosition
-            unit.ModelPosition = len(self.Units)
-            self.Units.append(unit)
-            if self.UnitsForIncrement is not None:
-                for i in range(len(self.UnitsForIncrement)):
-                    if len(self.Units) >= self.UnitsForIncrement[i] and i > self.PowerStage:
-                        self.Power += self.PowerAdded[i]
-                        self.PowerStage = i
-                        break
-            self.calculate_points()
-        else:
-            print(Messages.MaxSoldiers)
 
 
 class Canoness(Squad):
@@ -39,7 +14,7 @@ class Canoness(Squad):
         super().__init__(Power=3, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.append(order)
         self.Keywords = ["CHARACTER", "INFANTRY", "CANONESS"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.Rosarius,
@@ -88,7 +63,7 @@ class Canoness(Squad):
     def select_null_rod(self):
         if self.Units[0].Gun[1].__class__.__name__ == 'ChainSword':
             self.HasNullRod = True
-            self.Units[0].POINTS += 12
+            self.Units[0].Points += 12
             self.calculate_points()
         else:
             print(Messages.IllegalWeapon)
@@ -96,7 +71,7 @@ class Canoness(Squad):
     def select_brazier_of_holy_fire(self):
         if self.Units[0].Gun[1].__class__.__name__ == 'ChainSword':
             self.HasBrazierOfHolyFire = True
-            self.Units[0].POINTS += 8
+            self.Units[0].Points += 8
             self.calculate_points()
         else:
             print(Messages.IllegalWeapon)
@@ -111,7 +86,7 @@ class Celestine(Squad):
     def __init__(self):
         super().__init__(Power=8, MaxUnits=1, AddedPower=[0])
         self.Keywords = ["CHARACTER", "INFANTRY", "JUMP PACK", "FLY", "CELESTINE"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.HealingTears,
@@ -128,7 +103,7 @@ class TriumphOfSaintKatherine(Squad):
     def __init__(self):
         super().__init__(Power=9, MaxUnits=1, AddedPower=[0])
         self.Keywords = ["CHARACTER", "INFANTRY", "TRIUMPH OF SAINT KATHERINE"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.PraesidiumProtectiva,
@@ -146,7 +121,7 @@ class JunithEruita(Squad):
         super().__init__(Power=6, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.append('ORDER OF OUR MARTYRED LADY')
         self.Keywords = ["CHARATER", "VEHICLE", "FLY", "CANONESS SUPERIOR", "JUNITH ERUITA"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.Rosarius,
@@ -164,7 +139,7 @@ class Missionary(Squad):
         super().__init__(Power=2, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.pop(2)
         self.Keywords = ["CHARACTER", "INFANTRY", "MINISTORUM PRIEST", "MISSIONARY"]
-        self.ABILITIES = [Abilities.Zealot,
+        self.Abilities = [Abilities.Zealot,
                           Abilities.Rosarius,
                           Abilities.WarHymns,
                           Abilities.LoneMission,
@@ -189,7 +164,7 @@ class BattleSistersSquad(Squad):
         super().__init__(Power=4, MaxUnits=15, AddedPower=[2, 2], UnitsForIncrement=[5, 10])
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "BATTLE SISTERS SQUAD"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.SimulacrumImperialis,
@@ -274,7 +249,7 @@ class BattleSistersSquad(Squad):
         if self.Units[soldier].Gun[1].__class__.__name__ == 'Boltgun':
             self.Units[soldier].HasSimulacrumImperialis = True
             self.SoldierWithSimulacrumImperialis = soldier
-            self.Units[soldier].POINTS += 5
+            self.Units[soldier].Points += 5
             self.calculate_points()
         else:
             print(Messages.IllegalWeapon)
@@ -293,7 +268,7 @@ class Preacher(Squad):
         super().__init__(Power=1, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.pop(2)
         self.Keywords = ["CHARACTER", "INFANTRY", "MINISTORUM PRIEST", "PREACHER"]
-        self.ABILITIES = [Abilities.Zealot,
+        self.Abilities = [Abilities.Zealot,
                           Abilities.IconOfTheEcclesiarchy,
                           Abilities.Rosarius,
                           Abilities.WarHymns]
@@ -307,7 +282,7 @@ class GeminaeSuperiaSquad(Squad):
     def __init__(self):
         super().__init__(Power=1, MaxUnits=2, AddedPower=[1], UnitsForIncrement=[2])
         self.Keywords = ["CHARACTER", "INFANTRY", "JUMP PACK", "FLY", "GEMINAE SUPERIA"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.DivineGuardians,
@@ -323,7 +298,7 @@ class RepentiaSuperior(Squad):
         super().__init__(Power=2, MaxUnits=1, AddedPower=[0])
         self.FactionKeywords.append(order)
         self.Keywords = ["CHARACTER", "INFANTRY", "REPENTIA SUPERIOR"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.ScourgeOfThePenitent,
@@ -346,7 +321,7 @@ class SisterRepentiaSquad(Squad):
         super().__init__(Power=2, MaxUnits=9, AddedPower=[3], UnitsForIncrement=[5])
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "SISTERS REPENTIA"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.Zealot,
@@ -366,7 +341,7 @@ class CelestianSquad(Squad):
         super().__init__(Power=4, MaxUnits=10, AddedPower=[2], UnitsForIncrement=[6])
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "CELESTIAN SQUAD"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.Bodyguard,
@@ -436,7 +411,7 @@ class CelestianSquad(Squad):
         if self.Units[soldier].Gun[1].__class__.__name__ == 'Boltgun':
             self.Units[soldier].HasSimulacrumImperialis = True
             self.HasSimulacrumImperialis = True
-            self.Units[soldier].POINTS += 5
+            self.Units[soldier].Points += 5
             self.calculate_points()
 
         # 1 Celestian can be equipped with 1 weapon from the Special Weapons list instead of 1 boltgun.
@@ -453,7 +428,7 @@ class ZephyrimSquad(Squad):
         super().__init__(Power=5, MaxUnits=10, AddedPower=4)
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "JUMP PACK", "FLY", "ZEPHYRIM SQUAD"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.RapturousBlows,
@@ -484,7 +459,7 @@ class ZephyrimSquad(Squad):
         if self.CanHaveZephyrimPennant:
             self.CanHaveZephyrimPennant = False
             self.HasZephyrimPennant = True
-            self.Units[0].POINTS += 5
+            self.Units[0].Points += 5
             self.calculate_points()
 
         # The Zephyrim Superior can be equipped with 1 plasma pistol instead of 1 bolt pistol.
@@ -495,7 +470,7 @@ class Dialogus(Squad):
     def __init__(self):
         super().__init__(Power=2, MaxUnits=1, AddedPower=0)
         self.Keywords = ["CHARACTER", "INFANTRY", "DIALOGUS"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.LaudHailer,
@@ -511,7 +486,7 @@ class Hospitaller(Squad):
     def __init__(self):
         super().__init__(Power=2, MaxUnits=1, AddedPower=0)
         self.Keywords = ["CHARACTER", "INFANTRY", "HOSPITALLER"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.MedicusMinistorum]
@@ -526,7 +501,7 @@ class Imagifier(Squad):
         super().__init__(Power=2, MaxUnits=1, AddedPower=0)
         self.FactionKeywords.append(order)
         self.Keywords = ["CHARACTER", "INFANTRY", "IMAGIFIER"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.LitanyOfDeeds]
@@ -542,7 +517,7 @@ class CrusaderSquad(Squad):
         self.FactionKeywords.pop(2)
         self.FactionKeywords.append('ASTRA MILITARUM')
         self.Keywords = ["INFANTRY", "ECCLESIARCHY BATTLE CONCLAVE", "CRUSADERS"]
-        self.ABILITIES = [Abilities.Zealot,
+        self.Abilities = [Abilities.Zealot,
                           Abilities.EcclesiarchyBattleConclave,
                           Abilities.StormShield,
                           Abilities.SpiritualFortitude]
@@ -558,7 +533,7 @@ class DeathCultAssassinSquad(Squad):
         super().__init__(Power=1, MaxUnits=6, AddedPower=2)
         self.FactionKeywords.pop(2)
         self.Keywords = ["INFANTRY", "ECCLESIARCHY BATTLE CONCLAVE", "DEATH CULT ASSASSINS"]
-        self.ABILITIES = [Abilities.Zealot,
+        self.Abilities = [Abilities.Zealot,
                           Abilities.UncannyReflexes,
                           Abilities.EcclesiarchyBattleConclave]
         self.Units.append(Units.DeathCultAssassin())
@@ -573,7 +548,7 @@ class ArcoFlagellantSquad(Squad):
         super().__init__(Power=2, MaxUnits=10, AddedPower=4)
         self.FactionKeywords.pop(2)
         self.Keywords = ["INFANTRY", "ECCLESIARCHY BATTLE CONCLAVE", "ARCO-FLAGELLANTS"]
-        self.ABILITIES = [Abilities.Zealot,
+        self.Abilities = [Abilities.Zealot,
                           Abilities.BerserkKillingMachines,
                           Abilities.EcclesiarchyBattleConclave]
         self.Units.append(Units.ArcoFlagellant())
@@ -595,7 +570,7 @@ class DominionSquad(Squad):
         super().__init__(Power=5, MaxUnits=10, AddedPower=2)
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", " DOMINION SQUAD"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.Vanguard,
@@ -668,7 +643,7 @@ class SeraphimSquad(Squad):
         super().__init__(Power=4, MaxUnits=5, AddedPower=3)
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "JUMP PACK", "FLY", "SERAPHIM SQUAD"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.AngelicVisage,
@@ -714,7 +689,7 @@ class ExorcistSquad(Squad):
         super().__init__(Power=8, MaxUnits=0, AddedPower=0)
         self.FactionKeywords.append(order)
         self.Keywords = ["VEHICLE", "EXORCIST"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.Explodes,
@@ -741,7 +716,7 @@ class MortifierSquad(Squad):
     def __init__(self):
         super().__init__(Power=3, MaxUnits=5, AddedPower=3)
         self.Keywords = ["VEHICLE", "MORTIFIERS"]
-        self.ABILITIES = [Abilities.AnguishOfTheUnredeemed,
+        self.Abilities = [Abilities.AnguishOfTheUnredeemed,
                           Abilities.NoReprieve,
                           Abilities.BlazeOfAgony]
         self.Units.append(Units.Mortifier())
@@ -791,7 +766,7 @@ class RetributorSquad(Squad):
         super().__init__(Power=6, MaxUnits=10, AddedPower=2)
         self.FactionKeywords.append(order)
         self.Keywords = ["INFANTRY", "RETRIBUTOR SQUAD"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.SimulacrumImperialis,
@@ -865,7 +840,7 @@ class PenitentEngineSquad(Squad):
         super().__init__(Power=3, MaxUnits=3, AddedPower=3)
         self.FactionKeywords.pop(2)
         self.Keywords = ["VEHICLE", "PENITENT ENGINES"]
-        self.ABILITIES = [Abilities.Zealot,
+        self.Abilities = [Abilities.Zealot,
                           Abilities.BerserkKillingMachines]
         self.Units.append(Units.PenitentEngine())
         self.SquadType = 'HeavySupport'
@@ -894,7 +869,7 @@ class SororitasRhinoSquad(Squad):
         super().__init__(Power=3, MaxUnits=1, AddedPower=0)
         self.FactionKeywords.append(order)
         self.Keywords = ["VEHICLE", "TRANSPORT", "RHINO", "SORORITAS RHINO"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.SmokeLaunchers,
@@ -918,7 +893,7 @@ class ImmolatorSquad(Squad):
         super().__init__(Power=5, MaxUnits=1, AddedPower=0)
         self.FactionKeywords.append(order)
         self.Keywords = ["VEHICLE", "TRANSPORT", "IMMOLATOR"]
-        self.ABILITIES = [Abilities.ActsOfFaith,
+        self.Abilities = [Abilities.ActsOfFaith,
                           Abilities.SacredRites,
                           Abilities.ShieldOfFaith,
                           Abilities.SmokeLaunchers,

@@ -28,22 +28,22 @@ def main():
         OutObjMeshPath = './Source/MeshObjects/{}/Mesh/'.format(army)
         OutObjMaterialPath = './Source/MeshObjects/{}/Material/'.format(army)
     else:
-        army = 'AdeptaSororitas'
-        InJsonPath = './Source/TTSJSON/{}/'.format(army)
+        army = 'Terrain'
+        InJsonPath = './TTSJSON/{}/'.format(army)
 
-        if not os.path.exists('./Source/Dataoutput/{}'.format(army)):
-            os.makedirs('./Source/Dataoutput/{}'.format(army))
-        if not os.path.exists('./Source/MeshObjects/{}'.format(army)):
-            os.makedirs('./Source/MeshObjects/{}'.format(army))
-        if not os.path.exists('./Source/MeshObjects/{}/Mesh'.format(army)):
-            os.makedirs('./Source/MeshObjects/{}/Mesh'.format(army))
-        if not os.path.exists('./Source/MeshObjects/{}/Material'.format(army)):
-            os.makedirs('./Source/MeshObjects/{}/Material'.format(army))
+        if not os.path.exists('./Dataoutput/{}'.format(army)):
+            os.makedirs('./Dataoutput/{}'.format(army))
+        if not os.path.exists('./MeshObjects/{}'.format(army)):
+            os.makedirs('./MeshObjects/{}'.format(army))
+        if not os.path.exists('./MeshObjects/{}/Mesh'.format(army)):
+            os.makedirs('./MeshObjects/{}/Mesh'.format(army))
+        if not os.path.exists('./MeshObjects/{}/Material'.format(army)):
+            os.makedirs('./MeshObjects/{}/Material'.format(army))
 
-        OutMeshPath = './Source/Dataoutput/{}/mesh.txt'.format(army)
-        OutObjMeshPath = './Source/MeshObjects/{}/Mesh/'.format(army)
-        OutObjMaterialPath = './Source/MeshObjects/{}/Material/'.format(army)
-    files = [json.load(open(InJsonPath + f))['ObjectStates'] for f in os.listdir(InJsonPath)]
+        OutMeshPath = './Dataoutput/{}/mesh.txt'.format(army)
+        OutObjMeshPath = './MeshObjects/{}/Mesh/'.format(army)
+        OutObjMaterialPath = './MeshObjects/{}/Material/'.format(army)
+    files = [json.load(open(InJsonPath + f, 'rb'))['ObjectStates'] for f in os.listdir(InJsonPath)]
     models = []
     for file in files:
         for unit in file:
@@ -51,7 +51,7 @@ def main():
                 models.append(unit)
     with open(OutMeshPath, 'w') as f:
         for i, model in enumerate(models):
-            if 'CustomMesh' in model.keys():
+            if 'CustomMesh' in model.keys() and model['Name'] != 'Custom_Assetbundle':
                 name = re.findall('([A-Z][a-z]*)', model['Nickname'])
                 nickname = ''.join(name)
                 f.write('{} = '.format(nickname) + '{\n')
@@ -72,7 +72,7 @@ def main():
                     os.makedirs(OutObjMaterialPath + '{}'.format(name[0]))
                 urllib.request.urlretrieve(model['CustomMesh']['DiffuseURL'],
                                            OutObjMaterialPath + '{}/{}.png'.format(name[0],
-                                                                                   nickname + '_' + str(i)))
+                                                                                   nickname + '_' + str(i))) if model['CustomMesh']['DiffuseURL'] != '' else None
     f.close()
 
 

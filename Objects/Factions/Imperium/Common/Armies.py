@@ -1,6 +1,9 @@
-class Infantry:
-    def __init__(self):
-        self.POINTS = 0
+from Objects.Races.Humans import Human
+
+
+class Infantry(Human):
+    def __init__(self, meshInfo):
+        super().__init__(meshInfo)
         self.M = 6
         self.WS = 3
         self.BS = 3
@@ -10,61 +13,60 @@ class Infantry:
         self.A = 1
         self.Ld = 7
         self.Sv = 3
-        self.InvSv = 0
-        self.Gun = []
 
     def replace_gun_1(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[0].POINTS if self.Gun[0] is not None else 0
+            self.Points -= self.Gun[0].Points if self.Gun[0] is not None else 0
             self.Gun[0] = weapon
-            self.POINTS += self.Gun[0].POINTS
+            self.Points += self.Gun[0].Points
 
     def replace_gun_2(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[1].POINTS if self.Gun[1] is not None else 0
+            self.Points -= self.Gun[1].Points if self.Gun[1] is not None else 0
             self.Gun[1] = weapon
-            self.POINTS += self.Gun[1].POINTS
+            self.Points += self.Gun[1].Points
 
     def replace_gun_3(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[2].POINTS if self.Gun[2] is not None else 0
+            self.Points -= self.Gun[2].Points if self.Gun[2] is not None else 0
             self.Gun[2] = weapon
-            self.POINTS += self.Gun[2].POINTS
+            self.Points += self.Gun[2].Points
 
     def replace_gun_4(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[3].POINTS if self.Gun[3] is not None else 0
+            self.Points -= self.Gun[3].Points if self.Gun[3] is not None else 0
             self.Gun[3] = weapon
-            self.POINTS += self.Gun[3].POINTS
+            self.Points += self.Gun[3].Points
 
 
-class Sergeant:
-    def __init__(self):
+class Sergeant(Human):
+    def __init__(self, meshInfo):
+        super().__init__(meshInfo)
         self.A += 1
         self.Ld += 1
-        self.Gun[4] = None
 
     # Sergeant weapons List
     def choose_sergeant_weapon(self, sergeant_weapon_1=None, sergeant_weapon_2=None):
         if sergeant_weapon_1 is not None:
-            self.POINTS -= self.Gun[0].POINTS
+            self.Points -= self.Gun[0].Points
             self.Gun[0] = sergeant_weapon_1
-            self.POINTS += self.Gun[0].POINTS
+            self.Points += self.Gun[0].Points
         if sergeant_weapon_2 is not None:
-            self.POINTS -= self.Gun[1].POINTS
+            self.Points -= self.Gun[1].Points
             self.Gun[1] = sergeant_weapon_2
-            self.POINTS += self.Gun[1].POINTS
+            self.Points += self.Gun[1].Points
 
     def replace_gun_5(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[4].POINTS if self.Gun[4] is not None else 0
+            self.Points -= self.Gun[4].Points if self.Gun[4] is not None else 0
             self.Gun[4] = weapon
-            self.POINTS += self.Gun[4].POINTS
+            self.Points += self.Gun[4].Points
 
 
-class Vehicle:
-    def __init__(self):
-        self.POINTS = 0
+class Vehicle(Human):
+    def __init__(self, meshInfo):
+        super().__init__(meshInfo)
+        self.Points = 0
         self.M = 6
         self.WS = 3
         self.BS = 3
@@ -95,39 +97,39 @@ class Vehicle:
 
     def replace_gun_1(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[0].POINTS if self.Gun[0] is not None else 0
+            self.Points -= self.Gun[0].Points if self.Gun[0] is not None else 0
             self.Gun[0] = weapon
-            self.POINTS += self.Gun[0].POINTS
+            self.Points += self.Gun[0].Points
 
     def replace_gun_2(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[1].POINTS if self.Gun[1] is not None else 0
+            self.Points -= self.Gun[1].Points if self.Gun[1] is not None else 0
             self.Gun[1] = weapon
-            self.POINTS += self.Gun[1].POINTS
+            self.Points += self.Gun[1].Points
 
     def replace_gun_3(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[2].POINTS if self.Gun[2] is not None else 0
+            self.Points -= self.Gun[2].Points if self.Gun[2] is not None else 0
             self.Gun[2] = weapon
-            self.POINTS += self.Gun[2].POINTS
+            self.Points += self.Gun[2].Points
 
     def replace_gun_4(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[3].POINTS if self.Gun[3] is not None else 0
+            self.Points -= self.Gun[3].Points if self.Gun[3] is not None else 0
             self.Gun[3] = weapon
-            self.POINTS += self.Gun[3].POINTS
+            self.Points += self.Gun[3].Points
 
     def replace_gun_5(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[4].POINTS if self.Gun[4] is not None else 0
+            self.Points -= self.Gun[4].Points if self.Gun[4] is not None else 0
             self.Gun[4] = weapon
-            self.POINTS += self.Gun[4].POINTS
+            self.Points += self.Gun[4].Points
 
     def replace_gun_6(self, weapon=None):
         if weapon is not None:
-            self.POINTS -= self.Gun[5].POINTS if self.Gun[5] is not None else 0
+            self.Points -= self.Gun[5].Points if self.Gun[5] is not None else 0
             self.Gun[5] = weapon
-            self.POINTS += self.Gun[5].POINTS
+            self.Points += self.Gun[5].Points
 
     def damage_update(self, M=False, WS=False, BS=False, A=False):
         if self.W >= self.FirstW:

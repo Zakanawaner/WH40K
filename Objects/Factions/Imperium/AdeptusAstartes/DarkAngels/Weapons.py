@@ -1,4 +1,4 @@
-from Objects.Factions.Imperium.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun
+from Objects.Factions.Imperium.Common.Weapons import Weapon, Melee, DiceAttackGun, DiceDamageGun, Combi, Flamer_, Plasma, Melta
 
 
 class Gauntlet(Melee):
@@ -6,28 +6,6 @@ class Gauntlet(Melee):
         super().__init__(A=A, S=S)
         self.S *= 2
         self.ABILITY = 'When attacking -1 to hit'
-
-
-class Plasma(Weapon):
-    def __init__(self, ability_type=0):
-        super().__init__()
-        ABILITY = ['If hitroll = 1, -1 wound to the bearer',
-                   'If hitroll = 1, -1 wound to the bearer after all the shots of this weapon resolved',
-                   'If hitroll = 1, -3 wound to the bearer and the weapon is broken']
-        self.ABILITY = ABILITY[ability_type]
-        self.supercharge = False
-
-    def set_supercharge(self):
-        if not self.supercharge:
-            self.supercharge = True
-            self.S += 1
-            self.D += 1
-
-    def reset_supercharge(self):
-        if self.supercharge:
-            self.supercharge = False
-            self.S -= 1
-            self.D -= 1
 
 
 class Shock(Weapon):
@@ -48,18 +26,6 @@ class Shotgun(Weapon):
         self.ABILITY = '+1 S if target < 6"'
 
 
-class _Flamer(Weapon):
-    def __init__(self):
-        super().__init__()
-        self.ABILITY = 'autohit'
-
-
-class Melta(Weapon):
-    def __init__(self):
-        super().__init__()
-        self.ABILITY = 'If target < half range, roll two dice to wound and stay with the best'
-
-
 class Grav(Weapon):
     def __init__(self):
         super().__init__()
@@ -76,28 +42,6 @@ class Whirlwind(Weapon):
     def __init__(self):
         super().__init__()
         self.ABILITY = 'Can shoot units that are not visible to the model'
-
-
-class Combi(Weapon):
-    def __init__(self, gun1, gun2):
-        super().__init__()
-        self.ABILITY = 'Whith both selected, -1 hit roll'
-        self.selection_1 = True
-        self.selection_2 = False
-        self.gun_1 = gun1
-        self.gun_2 = gun2
-
-    def set_1(self):
-        self.selection_1 = True
-
-    def reset_1(self):
-        self.selection_1 = False
-
-    def set_2(self):
-        self.selection_2 = True
-
-    def reset_2(self):
-        self.selection_2 = False
 
 
 class CycloneFragMissile(DiceAttackGun):
@@ -413,7 +357,7 @@ class DemolisherCannon(DiceAttackGun, DiceDamageGun):
         self.TYPE = 'Heavy'
 
 
-class Flamer(_Flamer, DiceAttackGun):
+class Flamer(Flamer_, DiceAttackGun):
     def __init__(self):
         super().__init__()
         self.POINTS = 9
@@ -422,7 +366,7 @@ class Flamer(_Flamer, DiceAttackGun):
         self.A = 'D6'
 
 
-class FlameStormCannon(_Flamer, DiceAttackGun):
+class FlameStormCannon(Flamer_, DiceAttackGun):
     def __init__(self):
         super().__init__()
         self.POINTS = 30
@@ -434,7 +378,7 @@ class FlameStormCannon(_Flamer, DiceAttackGun):
         self.TYPE = 'Heavy'
 
 
-class FlameStormGauntlets(_Flamer, DiceAttackGun):
+class FlameStormGauntlets(Flamer_, DiceAttackGun):
     def __init__(self):
         super().__init__()
         self.RANGE = 18
@@ -519,7 +463,7 @@ class HeavyBolter(Weapon):
         self.TYPE = 'Heavy'
 
 
-class HeavyFlamer(_Flamer, DiceAttackGun):
+class HeavyFlamer(Flamer_, DiceAttackGun):
     def __init__(self):
         super().__init__()
         self.POINTS = 17
